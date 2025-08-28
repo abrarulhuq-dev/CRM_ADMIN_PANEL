@@ -5,7 +5,7 @@ const Customers = () => {
   return (
 
     <div>
-      
+      <Addbutton name={'add-customer'}/>
       
     </div>
   )

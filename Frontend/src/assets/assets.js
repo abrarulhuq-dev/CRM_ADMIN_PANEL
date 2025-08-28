@@ -132,7 +132,13 @@ export const Staff = [
     }
 ]
 
-export const Department = ["Sales", "Support", 'Innovative Strategies', 'Creative Solutions']
+export const department = [
+    { name: "Sales" },
+    { name: "Support" },
+    { name: 'Innovative Strategies' },
+    { name: 'Creative Solutions' }
+]
+
 
 export const Admin = {
     profile: profile_icon,

@@ -9,6 +9,8 @@ import Customers from './pages/Customers'
 import Department from './pages/Department'
 import Login from './pages/Login'
 import { useAppcontext } from './context/AppContext'
+import Form from './component/Form'
+import {Toaster} from 'react-hot-toast'
 
 const App = () => {
 
@@ -17,6 +19,7 @@ const App = () => {
 
   return login ? (
     <div className='flex bg-secondary items-start'>
+      <Toaster />
       <Sidebar />
       <div>
         <Navbar />
@@ -26,7 +29,7 @@ const App = () => {
           <Route path='/staffs' element={<Staff />} />
           <Route path='/customers' element={<Customers />} />
           <Route path='/departments' element={<Department />} />
-          
+          <Route path='/form/:name' element={<Form/>}/>
         </Routes>
       </div>
 
