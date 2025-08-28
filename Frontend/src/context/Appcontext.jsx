@@ -1,30 +1,26 @@
 import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Customer } from "../assets/assets";
 
+export const AppConext = createContext();
 
-export const AppConext = createContext()
+export const AppContextProvider = ({ children }) => {
+  const [login, setlogin] = useState(true);
+  const [menu, setmenu] = useState(false);
+  const [showDropdown, setshowDropdown] = useState(false);
+  const [statuses, setStatuses] = useState(Object.fromEntries(Customer.map(c => [c.id, c.status])));
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const statusOptions = ['New', 'In Progress', 'Converted']
 
-export const AppContextProvider = ({children }) => {
+  const value = {
+    login,setlogin,
+    menu,setmenu,
+    showDropdown,setshowDropdown,
+    statuses,setStatuses,
+    openDropdown,setOpenDropdown,
+    statusOptions,
+  };
 
-   const [login, setlogin] = useState(true);
-   const [menu, setmenu] = useState(false);
-   const [activestate, setactivestate] = useState();
-    
+  return <AppConext.Provider value={value}>{children}</AppConext.Provider>;
+};
 
-
-
-const value = {
-    login, setlogin,
-    menu, setmenu,
-    activestate, setactivestate,
-}
-
-return <AppConext.Provider value={value}>
-    {children}
-</AppConext.Provider>
-
-}
-
-export const useAppcontext = () =>{
-    return useContext(AppConext)
-}
+export const useAppcontext = () => useContext(AppConext);
