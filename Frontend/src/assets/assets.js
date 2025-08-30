@@ -8,6 +8,7 @@ import customer_icon_3 from './drew.png'
 import customer_icon_4 from './andi.png'
 import customer_icon_5 from './digg.png'
 import down_arrow_icon from './down_arrow.svg'
+import flag from './India (IN).svg'
 import { UserCog, Users, UserRound, Building2, Venus, Mars, Calendar } from 'lucide-react'
 
 export const assets = {
@@ -21,6 +22,7 @@ export const assets = {
     manager_icon,
     dept_icon,
     down_arrow_icon,
+    flag,
 }
 
 export const Customer = [
@@ -32,7 +34,7 @@ export const Customer = [
         gender_icon: Venus,
         gender: 'Female',
         calendar_icon: Calendar,
-        added_on: 20 / 12 / 25,
+        added_on: 20-12-2025,
         email: 'Melanie_Wiza@gmail.com',
         status: 'New',
     }, {
@@ -43,7 +45,7 @@ export const Customer = [
         gender_icon: Mars,
         gender: 'Male',
         calendar_icon: Calendar,
-        added_on: 20 / 12 / 25,
+        added_on: 20-12-2025,
         email: 'Patrick_Mraz@yahoo.com',
         status: 'New',
     },
@@ -55,7 +57,7 @@ export const Customer = [
         gender_icon: Venus,
         gender: 'Female',
         calendar_icon: Calendar,
-        added_on: 20 / 12 / 25,
+        added_on: 20-12-2025,
         email: 'MBridget_Beatty3@hotmail.com',
         status: 'New'
     },
@@ -67,7 +69,7 @@ export const Customer = [
         gender_icon: Mars,
         gender: 'Male',
         calendar_icon: Calendar,
-        added_on: 20 / 12 / 25,
+        added_on: 20-12-2025,
         email: 'Kenny_Wisozk11@hotmail.com',
         status: 'New'
     },
@@ -79,7 +81,7 @@ export const Customer = [
         gender_icon: Mars,
         gender: 'Male',
         calendar_icon: Calendar,
-        added_on: 20 / 12 / 25,
+        added_on: 20-12-2025,
         email: 'Jane.Johnson84@hotmail.com',
         status: "new"
     }, {
@@ -90,7 +92,7 @@ export const Customer = [
         gender_icon: Venus,
         gender: 'Female',
         calendar_icon: Calendar,
-        added_on: 20 / 12 / 25,
+        added_on: 20-12-2025,
         email: 'Leslie_Batz28@hotmail.com',
         status: 'New'
     },
@@ -102,7 +104,7 @@ export const Customer = [
         gender_icon: Venus,
         gender: 'Female',
         calendar_icon: Calendar,
-        added_on: 20 / 12 / 25,
+        added_on: 20-12-2025,
         email: 'Jaime.Jacobs@gmail.com',
         status: 'New'
     }, {
@@ -113,20 +115,20 @@ export const Customer = [
         gender_icon: Venus,
         gender: 'Female',
         calendar_icon: Calendar,
-        added_on: 20 / 12 / 25,
+        added_on: 20-12-2025,
         email: 'Bruce22@hotmail.com',
         status: 'New'
     },
 
 ]
 
-export const Manager = [
+export const managaers = [
     {
 
     }
 ]
 
-export const Staff = [
+export const staff = [
     {
 
     }

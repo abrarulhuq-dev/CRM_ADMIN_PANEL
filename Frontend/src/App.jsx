@@ -10,18 +10,18 @@ import Department from './pages/Department'
 import Login from './pages/Login'
 import { useAppcontext } from './context/AppContext'
 import Form from './component/Form'
-import {Toaster} from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 
 const App = () => {
 
-  const {login} = useAppcontext()
+  const { login } = useAppcontext()
 
 
   return login ? (
-    <div className='flex bg-secondary items-start'>
+    <div className='flex h-screen '>
       <Toaster />
       <Sidebar />
-      <div>
+      <div className=' flex-1 flex flex-col bg-secondary px-5 py-3 md:px-10 md:py-6 gap-5 overflow-y-auto'>
         <Navbar />
         <Routes>
           <Route path='/' element={<Dashboard />} />
@@ -29,18 +29,19 @@ const App = () => {
           <Route path='/staffs' element={<Staff />} />
           <Route path='/customers' element={<Customers />} />
           <Route path='/departments' element={<Department />} />
-          <Route path='/form/:name' element={<Form/>}/>
+          <Route path='/form/:name' element={<Form />} />
         </Routes>
+
       </div>
 
     </div>
 
-  )  
-  :
-  (
-    <Login/>
   )
-  
+    :
+    (
+      <Login />
+    )
+
 }
 
 export default App

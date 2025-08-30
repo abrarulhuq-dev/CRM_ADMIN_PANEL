@@ -17,13 +17,15 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="ml-10">
-      <h1 className="text-3xl font-semibold">Welcome, {Admin.name}!</h1>
+    <div className='mt-3'>
 
-      {/* show the total number member */}
-      <div className="flex flex-wrap gap-5 justify-between mt-6">
+      {/* welcome message */}
+      <h1 className=" text-2xl md:text-3xl font-semibold">Welcome, {Admin.name}!</h1>
+
+      {/* stats cards */}
+      <div className=" flex flex-wrap gap-3 md:gap-5 lg:gap-7 mt-6 ">
         {stats.map((stat, idx) => (
-          <div key={idx} className=" flex items-center gap-3 bg-white min-w-70 rounded-xl shadow-sm px-4 py-2" >
+          <div key={idx} className=" w-52 sm:w-[14rem] lg:min-w-70 flex items-center gap-3 bg-white  rounded-xl shadow-sm px-4 py-2" >
 
             <stat.icon className={`w-12 h-12 p-3 flex items-center justify-center rounded-lg ${stat.bg} ${stat.color}`} />
 
@@ -36,31 +38,31 @@ const Dashboard = () => {
       </div>
 
       {/* lists of customer top 5 */}
-      <div className='mt-4 bg-white min-w-70 py-6 px-5 rounded-xl'>
+      <div className='mt-5 bg-white py-4 px-5 rounded-xl h-72 overflow-y-auto lg:h-auto '>
         <p className='text-lg font-semibold'>Customers</p>
-        <div className='mt-5 px-2'>
+        <div className='mt-5 px-2.5'>
 
-          <div className='grid grid-cols-[1.5fr_3fr_2.3fr_3fr_3fr] mb-3 font-medium text-sm px-2.5'>
-            <p>Customer ID</p>
-            <p className='pl-1'>Name</p>
-            <p className='pl-2'>Phone</p>
-            <p className='pl-2'>Email</p>
-            <p className='pl-5'>Status</p>
+          <div className=' grid grid-cols-[1.5fr_3fr_2.3fr_3fr_3fr] mb-3 grid-flow-col font-medium text-xs md:text-sm px-2.5 py-2'>
+            <p>ID</p>
+            <p>Name</p>
+            <p>Phone</p>
+            <p>Email</p>
+            <p>Status</p>
           </div>
           {Customer.slice(0, 5).map((custm, rowidx) => (
-            <div key={custm.id} className='grid grid-cols-[1.5fr_3fr_2.3fr_3fr_3fr] text-sm'>
+            <div key={custm.id} className='flex flex-wrap justify-between max-sm:gap-2 sm:grid sm:grid-cols-[1.5fr_3fr_2.3fr_3fr_3fr] text-sm '>
               {[custm.id, custm.name, custm.phone, custm.email].map((value, colidx) => (
                 <div
                   key={colidx}
-                  className={`py-2 px-2.5 ${(colidx === 0 && rowidx % 2 === 0) || (colidx !== 0 && rowidx % 2 === 1) ? 'bg-gray-100' : 'bg-white'}`}
+                  className={`py-4 px-1 ${(colidx === 0 && rowidx % 2 === 0) || (colidx !== 0 && rowidx % 2 === 1) ? 'bg-gray-100' : 'bg-white'}`}
                 >
                   {value}
                 </div>
               ))}
 
               {/* Status column */}
-              <div className={`py-2 px-2.5 ${(4 === 0 && rowidx % 2 === 0) || (4 !== 0 && rowidx % 2 === 1) ? 'bg-gray-100' : 'bg-white'}`}>
-                <div className={`py-2 px-2 flex gap-2 relative`}>
+              <div className={`py-3 ${(4 === 0 && rowidx % 2 === 0) || (4 !== 0 && rowidx % 2 === 1) ? 'bg-gray-100' : 'bg-white'}`}>
+                <div className=' flex gap-2 relative items-center'>
                   <button
                     className={`px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${statuses[custm.id] === 'In Progress'
                         ? 'bg-yellow-100 text-yellow-700'
