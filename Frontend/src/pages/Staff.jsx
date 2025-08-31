@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Addbutton from '../component/Addbutton'
 import { staff } from '../assets/assets'
 import Filterbar from '../component/Filterbar'
+import axios from 'axios'
+import { useAppcontext } from '../context/AppContext'
+import toast from 'react-hot-toast'
 
 const Staff = () => {
     const [staffsearch,setstaffsearch ] = useState('')
@@ -9,9 +12,35 @@ const Staff = () => {
     const [to, setTo] = useState('')
     const [filteredmanagers, setFilteredmanagers] = useState(staff)
 
+    const [staffs, setstaffs] = useState([]);
+
+    const {backendurl} = useAppcontext()
+
+
+    const getstaff = async() =>{
+      try {
+        const {data} = await axios.get(backendurl + 'api/staff/')
+
+        setstaff(data)
+        console.log(data);
+        
+
+      } catch (error) {
+        toast.error(error.message)
+        console.log(error);
+        
+      }
+    }
+
+
     const searchHandle = (e) => { }
 
     const Datehandle = (e) => { }
+
+    useEffect(()=>{
+      getstaff();
+    },[])
+
 
   return (
     <div className='mt-4'>

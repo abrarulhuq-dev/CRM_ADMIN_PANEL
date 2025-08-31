@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 djangorestframework = "*"
-djangorestframework-simplejwt = "*"
 drf-spectacular = "*"
 django-cors-headers = "*"
 python-dotenv = "*"
@@ -15,6 +14,7 @@ psycopg2-binary = "*"
 cloudinary = "*"
 django-cloudinary-storage = "*"
 pillow = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 

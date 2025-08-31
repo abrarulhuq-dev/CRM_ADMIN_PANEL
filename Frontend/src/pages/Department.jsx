@@ -2,33 +2,15 @@ import React, { useEffect, useState } from 'react'
 import Addbutton from '../component/Addbutton'
 import { Search } from 'lucide-react'
 import { useAppcontext } from '../context/AppContext'
-import axios from 'axios'
-import toast from 'react-hot-toast'
-import { data } from 'react-router-dom'
+
 
 const Department = () => {
   const [searchdept, setsearchdept] = useState('');
   const [filterdept, setfilterdept] = useState([]);
-  const [department, setdepartment] = useState([]); 
 
-  const {backendurl} = useAppcontext();
+  const {department} = useAppcontext();
 
-  const getdepartment = async () => {
-    try {
-      const {data} = await axios.get(backendurl + 'api/department/');
-     
-      setdepartment(data);
-      // setfilterdept(data);
-      console.log(data);       
-      
-    } catch (error) {
-      toast.error(data.error);
-    }
-  }
-
-  useEffect(() => {
-    getdepartment();
-  }, []);
+ 
 
   useEffect(() => {
     if (searchdept.length > 0) {

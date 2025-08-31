@@ -1,7 +1,7 @@
 import { ArrowDown } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { assets, department } from '../assets/assets'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { assets } from '../assets/assets'
 import axios from 'axios'
 import { useAppcontext } from '../context/AppContext'
 import toast from 'react-hot-toast'
@@ -21,7 +21,7 @@ const InputField = ({ type, placeholder, name, handleChange, inputData }) => (
 const Form = () => {
 
   // global backend url
-  const { backendurl } = useAppcontext();
+  const { backendurl, department, manager } = useAppcontext();
 
   // url path define 
   const location = useLocation();
@@ -72,7 +72,7 @@ const Form = () => {
     phone: '',
     email: '',
     department: selected,
-    teamName: '',
+    teamname: '',
   })
 
   const [staffform, setstaffform] = useState({
@@ -116,8 +116,22 @@ const Form = () => {
       try {
         e.preventDefault();
 
+        const { data } = await axios.post(backendurl + 'api/customer/', customerform)
+
+        if(data.success){
+          navigate('/customers')
+          toast.success(data.message)
+          setSelected('select')
+          setcustimg('')
+          setcustomerform({ name: '',BOD: '',phone: '',email: '',gender: selected ,profile: custimg, })
+        }else { 
+          toast.error(data.error)
+        }
+
 
       } catch (error) {
+        console.log(error);
+        toast.error(error.message || "Something went wrong")
 
       }
 
@@ -126,10 +140,21 @@ const Form = () => {
       try {
         e.preventDefault();
 
+        const { data } = await axios.post(backendurl + 'api/manager/', managerform)
+
+        if (data.success) {
+          navigate('/managers')
+          toast.success(data.message)
+          setSelected('select')
+          setmanagerform({ name: '', phone: '', email: '', department: selected , teamname: '' })
+        } else {
+          toast.error(data.error)
+        }
 
 
       } catch (error) {
-
+        console.log(error);
+        toast.error(error.message || "Something went wrong")
 
       }
 
@@ -138,9 +163,20 @@ const Form = () => {
       try {
         e.preventDefault();
 
+        const { data } = await axios.post(backendurl + 'api/staff/', staffform)
+        if (data.success) {
+          navigate('/staffs')
+          toast.success(data.message)
+          setSelected('select')
+          setstaffform({ name: '', phone: '', email: '', manager: selected , skill: '', })
+        } else {
+          toast.error(data.error)
+        }
+
 
       } catch (error) {
-
+        console.log(error);
+        toast.error(error.message || "Something went wrong")
 
       }
 
@@ -149,7 +185,7 @@ const Form = () => {
       try {
         e.preventDefault();
 
-        const { data } = await axios.post(backendurl + 'api/department/add/', departmentform)
+        const { data } = await axios.post(backendurl + 'api/department/', departmentform)
 
         if (data.success) {
           toast.success(data.message)
@@ -307,7 +343,7 @@ const Form = () => {
                     {department.map((dept) => (
                       <li key={dept} className="px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer" onClick={() => handleSelect(dept.name)} >
                         {dept.name}
-                        {/* backend global */}
+                        
                       </li>
                     ))}
                   </ul>
@@ -317,11 +353,11 @@ const Form = () => {
 
             <div className='mb-4'>
               <p className='text-gray-500 font-medium mb-2'>Team</p>
-              <InputField type='text' inputData={managerform} name='TeamName' placeholder='Team Name' handleChange={handleChange} />
+              <InputField type='text' inputData={managerform} name='teamname' placeholder='Team Name' handleChange={handleChange} />
             </div>
           </div>
           <div className=' flex gap-4 justify-end'>
-            <button className='bg-gray-200 text-black px-6 py-2 rounded mt-4 ml-4'>Cancel</button>
+            <button className='bg-gray-200 text-black px-6 py-2 rounded mt-4 ml-4' onClick={()=> navigate('/managers')}>Cancel</button>
             <button className='bg-primary text-white px-6 py-2 rounded mt-4'>Submit</button>
           </div>
         </form>
@@ -362,10 +398,10 @@ const Form = () => {
 
                 {isOpen && (
                   <ul className="w-full absolute top-12 bg-white border border-gray-300 rounded shadow-md mt-1 py-2">
-                    {department.map((dept) => (
-                      <li key={dept} className="px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer" onClick={() => handleSelect(dept.name)} >
-                        {dept.name}
-                        {/* backend global */}
+                    {manager.map((manager) => (
+                      <li key={manager} className="px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer" onClick={() => handleSelect(manager.name)} >
+                        {manager.name}
+
                       </li>
                     ))}
                   </ul>
@@ -379,7 +415,7 @@ const Form = () => {
             </div>
           </div>
           <div className=' flex gap-4 justify-end'>
-            <button className='bg-gray-200 text-black px-6 py-2 rounded mt-4 ml-4'>Cancel</button>
+            <button className='bg-gray-200 text-black px-6 py-2 rounded mt-4 ml-4' onClick={()=> navigate('/staffs')}>Cancel</button>
             <button className='bg-primary text-white px-6 py-2 rounded mt-4'>Submit</button>
           </div>
         </form>

@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useAppcontext } from '../context/AppContext'
 import { Admin, assets } from '../assets/assets'
 import { useLocation, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const Navbar = () => {
 
-    const { menu,setmenu, setlogin } = useAppcontext()
+    const { menu, setmenu, setlogin, settoken } = useAppcontext()
     const [searchquery, setsearchquery] = useState(false);
     const [showDropdown, setshowDropdown] = useState(false);
     const [search, setsearch] = useState('');
@@ -26,16 +27,21 @@ const Navbar = () => {
 
     const navigate = useNavigate();
 
-    
 
-    const logout = () =>{
 
-        setlogin(false)
+    const logout = () => {
+
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        settoken(false);
+        setlogin(false);
+        toast.success("Logged out successfully");
+
     }
 
-   
+
     // mobile view setting 
- 
+
 
     return (
         <div className='w-full'>
@@ -49,7 +55,7 @@ const Navbar = () => {
                 <div className='flex items-center gap-5'>
                     <div className='hidden lg:flex items-center text-sm'>
                         <SearchIcon onClick={() => setsearchquery(!searchquery)} className={` ${searchquery && 'text-gray-400'}`} />
-                        <input type="text" placeholder="Search" onChange={(e)=>setsearch(e.target.value)} className={` outline-none transition-all duration-300 bg-gray-300/60 rounded-full focus:bg-gray-300/60
+                        <input type="text" placeholder="Search" onChange={(e) => setsearch(e.target.value)} className={` outline-none transition-all duration-300 bg-gray-300/60 rounded-full focus:bg-gray-300/60
                          ${searchquery ? ' px-3 py-1 w-52 opacity-100 ml-2' : 'w-0 opacity-0 p-0 border-0 ml-0'}
                          `}
                         />
@@ -57,6 +63,7 @@ const Navbar = () => {
                     <span className='w-0.5 h-10 bg-gray-300 ml-2 rounded-full'></span>
 
                     <div className='flex items-center gap-2'>
+                        {/* get admin profile or update profile */}
                         <img src={Admin.profile} className='w-8 sm:w-10' alt="profile" />
                         <div className='mr-5 '>
                             <h1 className='font-semibold text-sm sm:text-xl'>{Admin.name}</h1>

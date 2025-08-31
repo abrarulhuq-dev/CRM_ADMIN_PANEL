@@ -21,7 +21,9 @@ const Customers = () => {
     setOpenDropdown(null);
   };
 
-  // Search handler for customer
+
+
+   // Search handler for customer
   const searchHandle = (e) => {
     const value = e.target.value
     setcustomersearch(value)

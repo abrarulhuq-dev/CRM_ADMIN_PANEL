@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,8 +47,25 @@ INSTALLED_APPS = [
     'department', # department app
     'rest_framework', # REST API
     'corsheaders', # CORS
+    "cloudinary", # Cloudinary
+    "cloudinary_storage", # Cloudinary
+    'rest_framework_simplejwt',
 
 ]
+
+# REST framework + JWT setup
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+# Cloudinary Config (get from Cloudinary Dashboard)
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": 'dexqehley',
+    "API_KEY": '917514657121649',
+    "API_SECRET": 'N-45XjftxVTn1CYNqqcmr2H2Wt4'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,6 +108,20 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'your_db_name',
+#         'USER': 'your_db_user',
+#         'PASSWORD': 'your_password',
+#         'HOST': 'localhost',   # or your db server
+#         'PORT': '5432',
+#     }
+# }
+
+# CustomUser model config
+AUTH_USER_MODEL = 'user.CustomUser'
+
 
 
 # Password validation
@@ -130,6 +162,12 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
+# Use Cloudinary as default media storage
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+# Static + Media setup
+MEDIA_URL = '/media/'   # not used for storage, but needed for DRF
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

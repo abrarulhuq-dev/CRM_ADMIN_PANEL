@@ -6,7 +6,7 @@ class manager(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, unique=True)
-    department = models.ForeignKey(department, on_delete=models.set_null, null=True, blank=True, related_name='managers')
+    department = models.ForeignKey(department, on_delete=models.SET_NULL, null=True, blank=True, related_name='managers')
     team = models.CharField(max_length=100)
     joined_on = models.DateField(auto_now_add=True)
     status = models.BooleanField(default=True)

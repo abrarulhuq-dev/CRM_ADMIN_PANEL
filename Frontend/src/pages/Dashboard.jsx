@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Admin, Customer, stats } from '../assets/assets'
 import { useAppcontext } from '../context/AppContext'
 
 
 
 const Dashboard = () => {
-  const { statuses, setStatuses, openDropdown, setOpenDropdown, statusOptions } = useAppcontext();
+  const { statuses, setStatuses, openDropdown, setOpenDropdown, statusOptions, deptcount } = useAppcontext();
+
+  const [stated, setstats] = useState({})
 
   // Update status by customer ID
   const handleStatusChange = (customerId, newStatus) => {
