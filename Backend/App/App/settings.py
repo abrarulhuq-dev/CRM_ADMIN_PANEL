@@ -31,20 +31,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'user', # user app
-    'customer', #customer app
-    'manager', # manager app
-    'staff', # staff app
-    'department', # department app
+   
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+   
+    'user', # user app
+    'customer', #customer app
+    'manager', # manager app
+    'staff', # staff app
+    'department', # department app
     'rest_framework', # REST API
     'corsheaders', # CORS
-
 
 ]
 
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',  # CORS Middleware
+    'django.middleware.common.CommonMiddleware', # CORS Middleware
 ]
 
 ROOT_URLCONF = 'App.urls'
@@ -131,4 +133,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-COR_ALLOW_ALL_ORIGINS = True  # Allow all origins for CORS (for development only)
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for CORS (for development only)
+
+

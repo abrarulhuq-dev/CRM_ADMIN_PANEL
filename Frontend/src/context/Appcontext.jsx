@@ -10,6 +10,9 @@ export const AppContextProvider = ({ children }) => {
     const [statuses, setStatuses] = useState(Object.fromEntries(Customer.map(c => [c.id, c.status])));
     const [openDropdown, setOpenDropdown] = useState(null);
     const statusOptions = ['New', 'In Progress', 'Converted']
+
+
+    const backendurl = 'http://127.0.0.1:8000/'
     
 
     const value = {
@@ -18,11 +21,13 @@ export const AppContextProvider = ({ children }) => {
         showDropdown, setshowDropdown,
         statuses, setStatuses,
         openDropdown, setOpenDropdown,
-        statusOptions,
+        statusOptions,backendurl,
 
     };
 
-    return <AppConext.Provider value={value}>{children}</AppConext.Provider>;
+    return <AppConext.Provider value={value}>
+        {children}
+        </AppConext.Provider>;
 };
 
 export const useAppcontext = () => useContext(AppConext);

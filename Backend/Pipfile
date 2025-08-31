@@ -12,6 +12,9 @@ django-cors-headers = "*"
 python-dotenv = "*"
 dj-database-url = "*"
 psycopg2-binary = "*"
+cloudinary = "*"
+django-cloudinary-storage = "*"
+pillow = "*"
 
 [dev-packages]
 
