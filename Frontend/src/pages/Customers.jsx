@@ -10,25 +10,11 @@ const Customers = () => {
   const [to, setTo] = useState('')
   const [filteredCustomers, setFilteredCustomers] = useState(Customer)
 
-  const { statuses, setStatuses, openDropdown, setOpenDropdown, statusOptions, customer } = useAppcontext();
+  const { updatestatus, openDropdown, setOpenDropdown, statusOptions, customerdata } = useAppcontext();
 
 
-
-
-
-
-  // Update status by customer ID
-  const handleStatusChange = (customerId, newStatus) => {
-    setStatuses(prev => ({
-      ...prev,
-      [customerId]: newStatus,
-    }));
-    setOpenDropdown(null);
-  };
-
-
-
-   // Search handler for customer
+ 
+  // Search handler for customer
   const searchHandle = (e) => {
     const value = e.target.value
     setcustomersearch(value)
@@ -52,7 +38,7 @@ const Customers = () => {
       filtered = filtered.filter(cust =>
         cust.name.toLowerCase().includes(search.toLowerCase()) ||
         cust.email.toLowerCase().includes(search.toLowerCase()) ||
-        cust.phone.includes(search) 
+        cust.phone.includes(search)
       )
     }
 
@@ -73,7 +59,12 @@ const Customers = () => {
     setFilteredCustomers(filtered)
   }
 
-  
+  const getCellBg = (colidx, rowidx) => {
+    return (colidx === 0 && rowidx % 2 === 0) || (colidx !== 0 && rowidx % 2 === 1)
+      ? 'bg-gray-100'
+      : 'bg-white';
+  };
+
 
   return (
     <div className='mt-4'>
@@ -83,79 +74,82 @@ const Customers = () => {
           search={customersearch}
           Datehandle={Datehandle}
           from={from}
-          to={to}/>
-        <div className='py-5 h-96 overflow-y-scroll no-scollbar '>
-          <div className='grid grid-cols-[1fr_2fr_2fr_1fr_1fr_2fr_1.5fr] min-w-[800px] grid-flow-col mb-3 font-medium text-sm gap-3'>
-            <p>ID</p>
-            <p>Name</p>
-            <p>Phone</p>
-            <p>Gender</p>
-            <p>Added On</p>
-            <p>Email</p>
-            <p>Status</p>
-          </div>
+          to={to} />
 
-          {filteredCustomers.length > 0 ? (
-            filteredCustomers.map((custm, rowidx) => (
-              <div key={custm.id} className='grid grid-cols-[1fr_2fr_2fr_1fr_1fr_2fr_1.5fr] min-w-[800px] grid-flow-col text-sm max=md:gap-3'>
-                {[custm.id, custm.name, custm.phone, custm.gender,
-                custm.added_on
-                  ? new Date(custm.added_on).toLocaleDateString()
-                  : '',
-                custm.email
-                ].map((value, colidx) => (
-                  <div
-                    key={colidx}
-                    className={`py-2 pl-2.5 ${(colidx === 0 && rowidx % 2 === 0) || (colidx !== 0 && rowidx % 2 === 1) ? 'bg-gray-100' : 'bg-white'}`}
-                  >
-                    {value}
-                  </div>
-                ))}
-
-                {/* Status column */}
-                <div className={`py-2 px-2.5 ${(6 === 0 && rowidx % 2 === 0) || (6 !== 0 && rowidx % 2 === 1) ? 'bg-gray-100' : 'bg-white'}`}>
-                  <div className={`py-2 px-2 flex gap-2 relative`}>
-                    <button
-                      className={`px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${statuses[custm.id] === 'In Progress'
-                          ? 'bg-yellow-100 text-yellow-700 max-xl:w-20'
-                          : statuses[custm.id] === 'Converted'
+        <div className="flex flex-col items-center w-full h-96 rounded-md bg-white overflow-y-scroll no-scollbar ">
+          <table className="md:table-auto table-fixed w-full ">
+            <thead className="text-gray-900 text-sm text-left">
+              <tr>
+                <th className="w-20 pl-3 py-3 font-semibold truncate">ID</th>
+                <th className="w-52 pl-2 py-3 font-semibold truncate">Name</th>
+                <th className="w-36 pl-2 py-3 font-semibold truncate">phone</th>
+                <th className="w-32 pl-2 py-3 font-semibold truncate">Gender</th>
+                <th className="w-48 pl-2 py-3 font-semibold truncate">Email</th>
+                <th className="w-35 pl-2 py-3 font-semibold truncate">Added On</th>
+                <th className="w-20 pl-4 py-3 font-semibold truncate">Status</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm text-gray-700">
+              {customerdata.map((cust, rowidx) => (
+                <tr key={rowidx} >
+                  <td className={`w-20 pl-2 ${getCellBg(0, rowidx)}`} >user_{cust.id}</td>
+                  <td className={`pl-3 py-3 ${getCellBg(1, rowidx)}`}>
+                    <div className='flex gap-2'>
+                      <img className='w-7 h-7' src={cust.profile} alt="profile" />
+                      <p>{cust.name} </p>
+                    </div>
+                  </td>
+                  <td className={`pl-2 py-3 ${getCellBg(4, rowidx)}`}>+91 {cust.phone}</td>
+                  <td className={`pl-2 py-3 ${getCellBg(2, rowidx)}`}>{cust.gender}</td>
+                  <td className={`pl-2 py-3 ${getCellBg(5, rowidx)}`}>{cust.email}</td>
+                  <td className={`pl-2 py-3 ${getCellBg(6, rowidx)}`}>{cust.Added_on}</td>
+                  <td className={`pl-4 py-3 ${getCellBg(7, rowidx)}`}>
+                    <div className=' flex gap-2 relative items-center'>
+                      <button
+                        className={`px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${cust.status === 'In Progress'
+                          ? 'bg-yellow-100 text-yellow-700'
+                          : cust.status === 'Converted'
                             ? 'bg-red-100 text-red-600'
                             : 'bg-green-100 text-green-600'
-                        }`}
-                      onClick={() => setOpenDropdown(openDropdown === custm.id ? null : custm.id)}>
-                      {statuses[custm.id]}
-                    </button>
-                    {openDropdown === custm.id && (
-                      <div className="absolute left-13 top-1 right-0 z-20 bg-stone-100 rounded-lg flex flex-col gap-2 py-1 min-w-20 shadow transition-all duration-300 origin-top">
-                        {statusOptions.map((option, idx) => (
-                          <p
-                            key={idx}
-                            onClick={() => handleStatusChange(custm.id, option)}
-                            className={`mx-auto px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${option === 'New'
-                                ? 'bg-green-100 text-green-600 '
+                          }`}
+                        onClick={() => setOpenDropdown(openDropdown === cust.id ? null : cust.id)}>
+                        {cust.status}
+                      </button>
+                      {openDropdown === cust.id && (
+                        <div className="absolute right-0.5 top-8 z-20 bg-stone-100 rounded-lg flex flex-col items-center gap-2 py-2 px-2 min-w-24 shadow transition-all duration-300 origin-top">
+                          {statusOptions.map((option, idx) => (
+                            <p
+                              key={idx}
+                              onClick={() => updatestatus(cust.id, option)}
+                              className={`px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${option === 'New'
+                                ? 'bg-green-100 text-green-600'
                                 : option === 'Converted'
                                   ? 'bg-red-100 text-red-600'
-                                  : 'bg-yellow-100 text-yellow-700'
-                              }`}
-                          >
-                            {option}
-                          </p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
+                                  : 'bg-yellow-100 text-yellow-700 w-20'
+                                }`}
+                            >
+                              {option}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* : (
             <div className='flex flex-col items-center justify-center py-8'>
               <p className='text-xl font-medium'>Oops! No customer matches your search.</p>
               <span className='text-sm text-gray-500 mt-2'>Please add a customer.</span>
             </div>
-          )}
-        </div>
+          )} */}
       </div>
     </div>
+
   )
 }
 

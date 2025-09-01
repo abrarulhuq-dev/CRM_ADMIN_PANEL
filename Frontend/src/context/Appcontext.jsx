@@ -11,14 +11,11 @@ export const AppContextProvider = ({ children }) => {
     const [login, setlogin] = useState(localStorage.getItem('access_token') ? true : false) // checking the login or not
     const [menu, setmenu] = useState(false); // for mobile menu
     const [showDropdown, setshowDropdown] = useState(false); // for profile dropdown
-    const [statuses, setStatuses] = useState(Object.fromEntries(Customer.map(c => [c.id, c.status]))); // for customer status
     const [openDropdown, setOpenDropdown] = useState(null); // for status dropdown
     const statusOptions = ['New', 'In Progress', 'Converted'] // status options
 
     const [token, settoken] = useState(localStorage.getItem('access_token') ? localStorage.getItem('access_token') : false)
 
-    // total count of department 
-    const [deptcount, setdeptcount] = useState();
 
     // state for department
     const [department, setdepartment] = useState([]);
@@ -27,7 +24,8 @@ export const AppContextProvider = ({ children }) => {
     const [manager, setmanager] = useState([]);
 
     // state for customer
-    const [customer, setcustomer] = useState([]);
+    const [customerdata, setcustomerdata] = useState([]);
+    const [staffdata, setstaffdata] = useState([]);
 
     // state for userdata
     const [user, setuser] = useState([]);
@@ -64,7 +62,7 @@ export const AppContextProvider = ({ children }) => {
     const getcustomer = async () => {
         try {
             const { data } = await axios.get(backendurl + 'api/customer', { headers: { Authorization: `Bearer ${token}` } });
-            setcustomer(data)
+            setcustomerdata(data)
             console.log(data)
         } catch (error) {
             toast.error(error.message);
@@ -88,36 +86,89 @@ export const AppContextProvider = ({ children }) => {
         }
     }
 
-    useEffect(() => {
+    const getstaff = async () => {
+        try {
+            const { data } = await axios.get(backendurl + 'api/staff/', { headers: { Authorization: `Bearer ${token}` } })
 
+            setstaffdata(data)
+            console.log(data);
+
+
+        } catch (error) {
+            toast.error(error.message)
+            console.log(error);
+
+        }
+    }
+
+    
+      // Update status by customer ID
+      const updatestatus = async (customerId, newStatus) => {
+    
+    
+        try {
+    
+    
+          const { data } = await axios.patch(backendurl + `api/customer/${customerId}/`, { status: newStatus }, { headers: { Authorization: `Bearer ${token}` } });
+    
+          if (data.success) {
+    
+            toast.success(data.message);
+            setOpenDropdown(null);
+            setcustomerdata(prev =>
+              prev.map(cust =>
+                cust.id === customerId ? { ...cust, status: newStatus } : cust
+              ));
+    
+    
+    
+          } else {
+            console.log(error)
+            toast.error(data.error)
+          }
+    
+        } catch (error) {
+    
+          toast.error(error.message)
+          console.log(error)
+    
+        }
+    
+    
+      };
+
+    
+  
+
+   
+  
+
+
+
+
+    useEffect(() => {
+        getstaff();
         getuser()
-
-    }, [token])
-
-    useEffect(() => {
         getcustomer()
+        getdepartment();
+        getmanager();
+
     }, [token])
 
-    useEffect(() => {
-        getdepartment();
-    }, [token]);
 
-    useEffect(() => {
-        getmanager();
-    }, [token]);
 
 
     const value = {
         login, setlogin,
         menu, setmenu,
         showDropdown, setshowDropdown,
-        statuses, setStatuses,
         openDropdown, setOpenDropdown,
         statusOptions, backendurl,
         department, setdepartment,
         manager, setmanager,
-        deptcount, token, settoken,
-        user,
+        token, settoken,
+        user, customerdata, staffdata,
+        staffdata, updatestatus
 
     };
 
