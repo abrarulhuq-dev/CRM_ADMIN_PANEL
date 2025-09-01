@@ -120,9 +120,9 @@ export const AppContextProvider = ({ children }) => {
 
     };
 
-    return <AppConext.Provider value={value}>
+    return <AppContext.Provider value={value}>
         {children}
-    </AppConext.Provider>;
+    </AppContext.Provider>;
 };
 
-export const useAppcontext = () => useContext(AppConext);
+export const useAppcontext = () => useContext(AppContext);
