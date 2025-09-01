@@ -10,7 +10,12 @@ const Customers = () => {
   const [to, setTo] = useState('')
   const [filteredCustomers, setFilteredCustomers] = useState(Customer)
 
-  const { statuses, setStatuses, openDropdown, setOpenDropdown, statusOptions } = useAppcontext();
+  const { statuses, setStatuses, openDropdown, setOpenDropdown, statusOptions, customer } = useAppcontext();
+
+
+
+
+
 
   // Update status by customer ID
   const handleStatusChange = (customerId, newStatus) => {
