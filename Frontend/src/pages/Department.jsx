@@ -25,9 +25,9 @@ const Department = () => {
   }, [searchdept, department]);
 
   return (
-    <div className='mt-4'>
+    <div className='mt-4 w-full'>
       <Addbutton name={'add-department'} />
-      <div className='bg-white mt-5 py-6 px-5 ml-10 rounded-xl'>
+      <div className='bg-white mt-5 py-6 px-5 rounded-xl'>
         <div className="flex justify-end">
           <div className="flex items-center pl-3 mx-5 gap-2 bg-[#F7F7F7] h-[46px] rounded-md overflow-hidden">
             <Search className='text-gray-500/50' />
@@ -38,7 +38,7 @@ const Department = () => {
         <div className='py-3 px-2'>
           <h1 className='font-medium px-1'>Name</h1>
           {filterdept.length > 0 ? (
-            <div className='text-sm'>
+            <div className='text-sm h-90 overflow-y-scroll no-scollbar'>
               {filterdept.map((dept, idx) => (
                 <p key={idx} className='even:bg-gray-50 py-4 px-2'>{dept.name}</p>
               ))}

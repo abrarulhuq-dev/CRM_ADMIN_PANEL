@@ -77,7 +77,7 @@ const Customers = () => {
 
   return (
     <div className='mt-4'>
-      <Addbutton name={'add-customer'} />
+      <Addbutton name={'add-customers'} />
       <div className='bg-white rounded-xl my-5 ml-10  px-8 '>
         <Filterbar searchHandle={searchHandle}
           search={customersearch}

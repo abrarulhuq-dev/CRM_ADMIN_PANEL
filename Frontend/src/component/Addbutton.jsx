@@ -21,7 +21,7 @@ const Addbutton = ({name}) => {
 
     return (
         <div className=' flex justify-end'>
-            <button onClick={()=> navigate(`/form/${name}`)} className='flex items-center gap-2  bg-primary py-4 px-3.5 text-white rounded-xl'>
+            <button onClick={()=> navigate(`${name}`)} className='flex items-center gap-2  bg-primary py-4 px-3.5 text-white rounded-xl'>
                 Add {btnpath}
                 <Plus className='w-7 h-7'/>
             </button>

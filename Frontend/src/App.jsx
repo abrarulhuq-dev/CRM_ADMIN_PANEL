@@ -9,8 +9,11 @@ import Customers from './pages/Customers'
 import Department from './pages/Department'
 import Login from './pages/Login'
 import { useAppcontext } from './context/Appcontext'
-import Form from './component/Form'
 import { Toaster } from 'react-hot-toast'
+import CustomerFrom from './component/CustomerFrom'
+import ManagerForm from './component/ManagerForm'
+import StaffForm from './component/StaffForm'
+import DepartmentForm from './component/DepartmentForm'
 
 const App = () => {
 
@@ -26,10 +29,13 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Dashboard />} />
           <Route path='/managers' element={<Manager />} />
+          <Route path='/managers/add-managers' element={<ManagerForm />} />
           <Route path='/staffs' element={<Staff />} />
+          <Route path='/staffs/add-staffs' element={<StaffForm />} />
           <Route path='/customers' element={<Customers />} />
+          <Route path='/customers/add-customers' element={<CustomerFrom/>}/>
           <Route path='/departments' element={<Department />} />
-          <Route path='/form/:name' element={<Form />} />
+          <Route path='/departments/add-department' element={<DepartmentForm />} />
         </Routes>
 
       </div>
