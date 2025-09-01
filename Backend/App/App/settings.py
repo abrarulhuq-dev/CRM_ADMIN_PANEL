@@ -179,6 +179,9 @@ MEDIA_ROOT = BASE_DIR /'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for CORS (for development only)
+CORS_ALLOW_ORIGINS = [
+        'https://crm-admin-panel-eight.vercel.app/', 
+       ' http://localhost:5173/',
+    ] # Allow all origins for CORS (for development only)
 
 
