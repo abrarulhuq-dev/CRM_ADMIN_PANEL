@@ -21,7 +21,7 @@ const InputField = ({ type, placeholder, name, handleChange, inputData }) => (
 const Form = () => {
 
   // global backend url
-  const { backendurl, department, manager } = useAppcontext();
+  const { backendurl, department, manager, token, setdepartment, setmanager } = useAppcontext();
 
   // url path define 
   const location = useLocation();
@@ -91,7 +91,6 @@ const Form = () => {
 
 
 
-
   const handleChange = (e) => {
 
     const { name, value } = e.target;
@@ -116,15 +115,15 @@ const Form = () => {
       try {
         e.preventDefault();
 
-        const { data } = await axios.post(backendurl + 'api/customer/', customerform)
+        const { data } = await axios.post(backendurl + 'api/customer/', customerform, { headers: { Authorization: `Bearer ${token}` } })
 
-        if(data.success){
+        if (data.success) {
           navigate('/customers')
           toast.success(data.message)
           setSelected('select')
           setcustimg('')
-          setcustomerform({ name: '',BOD: '',phone: '',email: '',gender: selected ,profile: custimg, })
-        }else { 
+          setcustomerform({ name: '', BOD: '', phone: '', email: '', gender: selected, profile: custimg, })
+        } else {
           toast.error(data.error)
         }
 
@@ -140,13 +139,14 @@ const Form = () => {
       try {
         e.preventDefault();
 
-        const { data } = await axios.post(backendurl + 'api/manager/', managerform)
+        const { data } = await axios.post(backendurl + 'api/manager/', managerform, { headers: { Authorization: `Bearer ${token}` } })
 
         if (data.success) {
           navigate('/managers')
           toast.success(data.message)
           setSelected('select')
-          setmanagerform({ name: '', phone: '', email: '', department: selected , teamname: '' })
+          setmanagerform({ name: '', phone: '', email: '', department: selected, teamname: '' })
+          setmanager((prev) => [...prev, data.data])
         } else {
           toast.error(data.error)
         }
@@ -163,12 +163,12 @@ const Form = () => {
       try {
         e.preventDefault();
 
-        const { data } = await axios.post(backendurl + 'api/staff/', staffform)
+        const { data } = await axios.post(backendurl + 'api/staff/', staffform, { headers: { Authorization: `Bearer ${token}` } })
         if (data.success) {
           navigate('/staffs')
           toast.success(data.message)
           setSelected('select')
-          setstaffform({ name: '', phone: '', email: '', manager: selected , skill: '', })
+          setstaffform({ name: '', phone: '', email: '', manager: selected, skill: '', })
         } else {
           toast.error(data.error)
         }
@@ -185,12 +185,13 @@ const Form = () => {
       try {
         e.preventDefault();
 
-        const { data } = await axios.post(backendurl + 'api/department/', departmentform)
+        const { data } = await axios.post(backendurl + 'api/department/', departmentform, { headers: { Authorization: `Bearer ${token}` } })
 
         if (data.success) {
           toast.success(data.message)
           navigate('/departments')
           setcustomerform({ name: '', })
+          setdepartment((prev) => [...prev, data.data]);
         } else {
           toast.error(data.error)
         }
@@ -343,7 +344,7 @@ const Form = () => {
                     {department.map((dept) => (
                       <li key={dept} className="px-4 py-2 hover:bg-indigo-500 hover:text-white cursor-pointer" onClick={() => handleSelect(dept.name)} >
                         {dept.name}
-                        
+
                       </li>
                     ))}
                   </ul>
@@ -357,7 +358,7 @@ const Form = () => {
             </div>
           </div>
           <div className=' flex gap-4 justify-end'>
-            <button className='bg-gray-200 text-black px-6 py-2 rounded mt-4 ml-4' onClick={()=> navigate('/managers')}>Cancel</button>
+            <button className='bg-gray-200 text-black px-6 py-2 rounded mt-4 ml-4' onClick={() => navigate('/managers')}>Cancel</button>
             <button className='bg-primary text-white px-6 py-2 rounded mt-4'>Submit</button>
           </div>
         </form>
@@ -415,7 +416,7 @@ const Form = () => {
             </div>
           </div>
           <div className=' flex gap-4 justify-end'>
-            <button className='bg-gray-200 text-black px-6 py-2 rounded mt-4 ml-4' onClick={()=> navigate('/staffs')}>Cancel</button>
+            <button className='bg-gray-200 text-black px-6 py-2 rounded mt-4 ml-4' onClick={() => navigate('/staffs')}>Cancel</button>
             <button className='bg-primary text-white px-6 py-2 rounded mt-4'>Submit</button>
           </div>
         </form>

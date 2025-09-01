@@ -22,12 +22,15 @@ export const AppContextProvider = ({ children }) => {
 
     // state for department
     const [department, setdepartment] = useState([]);
- 
+
     //state for manager
     const [manager, setmanager] = useState([]);
 
     // state for customer
     const [customer, setcustomer] = useState([]);
+
+    // state for userdata
+    const [user, setuser] = useState([]);
 
 
     const backendurl = import.meta.env.VITE_BACKEND_URL
@@ -36,51 +39,71 @@ export const AppContextProvider = ({ children }) => {
 
     const getdepartment = async () => {
         try {
-            const  {data}  = await axios.get(backendurl + 'api/department/');
+            const { data } = await axios.get(backendurl + 'api/department/',  {headers:{Authorization: `Bearer ${token}`}});
 
             setdepartment(data);
             console.log(data);
         } catch (error) {
             toast.error(error.message);
-           
+
         }
     }
 
     const getmanager = async () => {
         try {
-            const { data } = await axios.get(backendurl + 'api/manager/');
+            const { data } = await axios.get(backendurl + 'api/manager/', {headers:{Authorization: `Bearer ${token}`}});
             setmanager(data);
             console.log(data);
-            
+
         } catch (error) {
             toast.error(error.message);
             console.log(error)
         }
     }
 
-    const getcustomer = async() => {
+    const getcustomer = async () => {
         try {
-            const {data} = await axios.get(backendurl + 'api/customer');
+            const { data } = await axios.get(backendurl + 'api/customer', {headers:{Authorization: `Bearer ${token}`}});
             setcustomer(data)
             console.log(data)
         } catch (error) {
             toast.error(error.message);
             console.log(error)
-            
+
         }
     }
 
-    useEffect(()=>{
+    const getuser = async () => {
+        try {
+            const { data } = await axios.get(backendurl + 'api/user/profile/', {headers:{Authorization: `Bearer ${token}`}
+            })
+            setuser(data)
+            console.log(data)
+        } catch (error) {
+
+            toast.error(error.message)
+            console.log(error)
+
+        }
+    }
+
+    useEffect(() => {
+
+        getuser()
+
+    }, [token])
+
+    useEffect(() => {
         getcustomer()
-    },[])
+    }, [token])
 
     useEffect(() => {
         getdepartment();
-    }, []);
+    }, [token]);
 
     useEffect(() => {
         getmanager();
-    }, []);
+    }, [token]);
 
 
     const value = {
@@ -90,8 +113,10 @@ export const AppContextProvider = ({ children }) => {
         statuses, setStatuses,
         openDropdown, setOpenDropdown,
         statusOptions, backendurl,
-        department, manager,
-        deptcount,token, settoken,
+        department, setdepartment,
+        manager, setmanager,
+        deptcount, token, settoken,
+        user,
 
     };
 

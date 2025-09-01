@@ -6,7 +6,7 @@ from .serializer import CustomerSerializer
 # Create your views here.
 
 class CustomerViewSet(viewsets.ModelViewSet):
-    data = customer.objects.all()
+    queryset = customer.objects.all()
     serializer_class = CustomerSerializer
     
     def create(self, request, *args, **kwargs):
@@ -23,9 +23,10 @@ class CustomerViewSet(viewsets.ModelViewSet):
     
     def list(self, *args, **kwargs):
         try: 
-            if not self.data:
+            queryset = self.get_queryset()          
+            if not queryset.exists():
                 return Response({'message': "No Customer found."},status=status.HTTP_404_NOT_FOUND )
-            serializer = self.serializer_class(self.data, many=True)
+            serializer = self.serializer_class(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

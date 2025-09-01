@@ -9,14 +9,15 @@ from .serializer import StaffSerializer
 
 class StaffViewSet(viewsets.ModelViewSet):
     
-    data = staff.objects.all()
+    queryset = staff.objects.all()
     serializer_class = StaffSerializer
     
     def list(self, *args, **kwargs):
         try:
-            if not self.data:
+            queryset = self.get_queryset()          
+            if not queryset.exists():
                 return Response({"message": "No staffs found."}, status=status.HTTP_404_NOT_FOUND)
-            serializer = self.serializer_class(self.data, many=True)
+            serializer = self.serializer_class(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

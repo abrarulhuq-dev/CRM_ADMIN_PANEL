@@ -48,6 +48,7 @@ const Login = () => {
           setlogin(true)
           localStorage.setItem('access_token', data.token.access)
           localStorage.setItem('refresh_token', data.token.refresh)
+          settoken(data.token.access)
           toast.success(data.message)
           console.log(data)
 

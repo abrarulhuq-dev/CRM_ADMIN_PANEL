@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 
 const Navbar = () => {
 
-    const { menu, setmenu, setlogin, settoken } = useAppcontext()
+    const { menu, setmenu, setlogin, settoken, user } = useAppcontext()
     const [searchquery, setsearchquery] = useState(false);
     const [showDropdown, setshowDropdown] = useState(false);
     const [search, setsearch] = useState('');
@@ -64,9 +64,9 @@ const Navbar = () => {
 
                     <div className='flex items-center gap-2'>
                         {/* get admin profile or update profile */}
-                        <img src={Admin.profile} className='w-8 sm:w-10' alt="profile" />
+                        <img src={user.profile_image === null ? Admin.profile : user.profile_image } className='w-8 sm:w-10' alt="profile" />
                         <div className='mr-5 '>
-                            <h1 className='font-semibold text-sm sm:text-xl'>{Admin.name}</h1>
+                            <h1 className='font-semibold text-sm sm:text-xl'>{user.username}</h1>
                             <div className='flex items-center gap-2  text-gray-500 relative'>
                                 <p className='text-xs md:text-sm'>Admin</p>
                                 <img src={assets.down_arrow_icon} onClick={() => setshowDropdown(!showDropdown)} className={`w-3.5 mt-1 cursor-pointer transition-transform duration-300 ${showDropdown ? 'rotate-180' : ''}`}

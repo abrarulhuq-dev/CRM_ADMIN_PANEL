@@ -7,14 +7,15 @@ from .serializer import ManagerSerializer
 
 class ManagerViewSet(viewsets.ModelViewSet):
     
-    data = manager.objects.all()
+    queryset = manager.objects.all()
     serializer_class = ManagerSerializer
     
     def list(self, *args, **kwargs):
         try:
-            if not self.data:
+            queryset = self.get_queryset()          
+            if not queryset.exists():
                 return Response({"message": "No managers found."}, status=status.HTTP_404_NOT_FOUND)
-            serializer = self.serializer_class(self.data, many=True)
+            serializer = self.serializer_class(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

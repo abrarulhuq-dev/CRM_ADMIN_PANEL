@@ -6,8 +6,10 @@ from .models import CustomUser
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 class RegisterView(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = CustomUser.objects.all()
     serializer_class = RegisterSerializer
     
@@ -23,6 +25,7 @@ class RegisterView(viewsets.ModelViewSet):
                  }}, status=status.HTTP_201_CREATED)
             
 class LoginView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -53,8 +56,10 @@ class ProfileView(APIView):
     
     def get(self, request):
         user = request.user
+        serializer = RegisterSerializer(user)
         return Response({ "success" : True,
+            "user": serializer.data,
             "username": user.username,
             "email": user.email,
             "profile_image": user.profile_image.url if user.profile_image else None
-        })
+        }, status=status.HTTP_200_OK)
