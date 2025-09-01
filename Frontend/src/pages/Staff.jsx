@@ -14,7 +14,35 @@ const Staff = () => {
 
   
 
-  const { backendurl, token, staffdata } = useAppcontext()
+  const { backendurl, token, staffdata, setstaffdata } = useAppcontext()
+
+
+  const togglestatus = async (staffId, Is_status ) => {
+
+    try {
+      
+    const {data } = await axios.patch(backendurl + `api/staff/${staffId}/`, {status : Is_status},  { headers: { Authorization: `Bearer ${token}` } })
+
+    if(data.success) {
+
+      toast.success(data.message);
+      setstaffdata(prev => prev.map(staf => 
+        staf.id === staffId ? { ...staf, status : Is_status} :staf 
+      ));
+
+    }else{
+      console.log(error)
+      toast.error(data.error)
+    }
+
+    } catch (error) {
+
+      toast.error(error.message)
+      console.log(error)
+     
+    }
+  }
+
 
 
 
@@ -65,12 +93,12 @@ const Staff = () => {
                   <td className={`pl-3 py-3 ${getCellBg(1,rowidx)}`}>{stfrow.name}</td>
                   <td className={`pl-2 py-3 ${getCellBg(2,rowidx)}`}>{stfrow.manager_name}</td>
                   <td className={`pl-2 py-3 ${getCellBg(3,rowidx)}`}>{stfrow.skill}</td>
-                  <td className={`pl-2 py-3 ${getCellBg(4,rowidx)}`}>{stfrow.phone}</td>
+                  <td className={`pl-2 py-3 ${getCellBg(4,rowidx)}`}>+91 {stfrow.phone}</td>
                   <td className={`pl-2 py-3 ${getCellBg(5,rowidx)}`}>{stfrow.email}</td>
                   <td className={`pl-2 py-3 ${getCellBg(6,rowidx)}`}>{stfrow.joined_on}</td>
                   <td className={`pl-4 py-3 ${getCellBg(7,rowidx)}`}>
                     <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
-                      <input type="checkbox" className="sr-only peer" defaultChecked={stfrow.status} />
+                      <input type="checkbox" className="sr-only peer" onChange={()=> togglestatus(stfrow.id, !stfrow.status)} checked={stfrow.status} />
                       <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-primary transition-colors duration-200"></div>
                       <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
                     </label>

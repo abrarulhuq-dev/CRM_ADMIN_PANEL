@@ -63,3 +63,5 @@ class ProfileView(APIView):
             "email": user.email,
             "profile_image": user.profile_image.url if user.profile_image else None
         }, status=status.HTTP_200_OK)
+        
+    

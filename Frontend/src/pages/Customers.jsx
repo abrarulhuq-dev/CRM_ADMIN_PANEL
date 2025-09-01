@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Addbutton from '../component/Addbutton'
 import Filterbar from '../component/Filterbar'
 import { Customer } from '../assets/assets'
@@ -13,7 +13,7 @@ const Customers = () => {
   const { updatestatus, openDropdown, setOpenDropdown, statusOptions, customerdata } = useAppcontext();
 
 
- 
+
   // Search handler for customer
   const searchHandle = (e) => {
     const value = e.target.value
@@ -31,7 +31,7 @@ const Customers = () => {
 
   // Filtering logic
   const filterCustomers = (search, fromDate, toDate) => {
-    let filtered = Customer
+    let filtered = customerdata
 
     // Search filter
     if (search) {
@@ -65,6 +65,22 @@ const Customers = () => {
       : 'bg-white';
   };
 
+  useEffect(() => {
+
+    if (customersearch.length > 0) {
+
+      setFilteredCustomers(
+        customerdata.filter(
+          cust.name.toLowerCase().includes(search.toLowerCase()) ||
+          cust.email.toLowerCase().includes(search.toLowerCase()) ||
+          cust.phone.includes(search)
+        )
+      )
+
+    }
+
+  }, [customersearch, customerdata])
+
 
   return (
     <div className='mt-4'>
@@ -90,6 +106,8 @@ const Customers = () => {
               </tr>
             </thead>
             <tbody className="text-sm text-gray-700">
+
+
               {customerdata.map((cust, rowidx) => (
                 <tr key={rowidx} >
                   <td className={`w-20 pl-2 ${getCellBg(0, rowidx)}`} >user_{cust.id}</td>

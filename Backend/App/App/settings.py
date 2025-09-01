@@ -178,6 +178,8 @@ DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 # Static + Media setup
 MEDIA_URL = '/media/'   # not used for storage, but needed for DRF
 
+MEDIA_ROOT = BASE_DIR /'media'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for CORS (for development only)

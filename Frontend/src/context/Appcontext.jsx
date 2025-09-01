@@ -168,7 +168,8 @@ export const AppContextProvider = ({ children }) => {
         manager, setmanager,
         token, settoken,
         user, customerdata, staffdata,
-        staffdata, updatestatus
+        staffdata, updatestatus,setstaffdata,
+        setmanager,
 
     };
 
