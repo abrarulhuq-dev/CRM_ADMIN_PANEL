@@ -3,7 +3,7 @@ import { Customer } from "../assets/assets";
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-export const AppConext = createContext();
+export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
 
