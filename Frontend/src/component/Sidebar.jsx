@@ -2,7 +2,7 @@ import React from 'react'
 import { assets } from '../assets/assets'
 import { Link, NavLink } from 'react-router-dom'
 import { BuildingIcon, LayoutDashboard, UserCog, UserRound, Users, } from 'lucide-react'
-import { useAppcontext } from '../context/AppContext'
+import { useAppcontext } from '../context/Appcontext'
 
 const Sidebar = () => {
 

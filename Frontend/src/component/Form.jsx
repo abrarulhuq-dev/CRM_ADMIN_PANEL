@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import axios from 'axios'
-import { useAppcontext } from '../context/AppContext'
+import { useAppcontext } from '../context/Appcontext'
 import toast from 'react-hot-toast'
 
 // Input feild Component

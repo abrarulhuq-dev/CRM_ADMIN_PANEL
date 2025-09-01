@@ -3,6 +3,8 @@ from .models import staff
 
 
 class StaffSerializer(serializers.ModelSerializer):
-    class Meta:
+    
+     manager_name = serializers.CharField(source='manager.name', read_only=True)
+     class Meta:
         model = staff
-        fields = '__all__'
+        fields = ['id', 'name', 'email', 'phone', 'skill', 'status', 'joined_on', 'manager', 'manager_name']

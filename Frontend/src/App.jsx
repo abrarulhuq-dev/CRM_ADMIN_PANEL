@@ -8,7 +8,7 @@ import Staff from './pages/Staff'
 import Customers from './pages/Customers'
 import Department from './pages/Department'
 import Login from './pages/Login'
-import { useAppcontext } from './context/AppContext'
+import { useAppcontext } from './context/Appcontext'
 import Form from './component/Form'
 import { Toaster } from 'react-hot-toast'
 

@@ -3,7 +3,7 @@ import { Customer } from "../assets/assets";
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-export const AppContext = createContext();
+export const AppContext = createContext()
 
 export const AppContextProvider = ({ children }) => {
 
@@ -39,7 +39,7 @@ export const AppContextProvider = ({ children }) => {
 
     const getdepartment = async () => {
         try {
-            const { data } = await axios.get(backendurl + 'api/department/',  {headers:{Authorization: `Bearer ${token}`}});
+            const { data } = await axios.get(backendurl + 'api/department/', { headers: { Authorization: `Bearer ${token}` } });
 
             setdepartment(data);
             console.log(data);
@@ -51,7 +51,7 @@ export const AppContextProvider = ({ children }) => {
 
     const getmanager = async () => {
         try {
-            const { data } = await axios.get(backendurl + 'api/manager/', {headers:{Authorization: `Bearer ${token}`}});
+            const { data } = await axios.get(backendurl + 'api/manager/', { headers: { Authorization: `Bearer ${token}` } });
             setmanager(data);
             console.log(data);
 
@@ -63,7 +63,7 @@ export const AppContextProvider = ({ children }) => {
 
     const getcustomer = async () => {
         try {
-            const { data } = await axios.get(backendurl + 'api/customer', {headers:{Authorization: `Bearer ${token}`}});
+            const { data } = await axios.get(backendurl + 'api/customer', { headers: { Authorization: `Bearer ${token}` } });
             setcustomer(data)
             console.log(data)
         } catch (error) {
@@ -75,7 +75,8 @@ export const AppContextProvider = ({ children }) => {
 
     const getuser = async () => {
         try {
-            const { data } = await axios.get(backendurl + 'api/user/profile/', {headers:{Authorization: `Bearer ${token}`}
+            const { data } = await axios.get(backendurl + 'api/user/profile/', {
+                headers: { Authorization: `Bearer ${token}` }
             })
             setuser(data)
             console.log(data)
@@ -123,6 +124,6 @@ export const AppContextProvider = ({ children }) => {
     return <AppContext.Provider value={value}>
         {children}
     </AppContext.Provider>;
-};
+}
 
-export const useAppcontext = () => useContext(AppContext);
+export const useAppcontext = () => useContext(AppContext)

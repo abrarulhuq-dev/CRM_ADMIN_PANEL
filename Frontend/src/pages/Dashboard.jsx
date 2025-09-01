@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Admin, Customer, stats } from '../assets/assets'
-import { useAppcontext } from '../context/AppContext'
+import { useAppcontext } from '../context/Appcontext'
 
 
 

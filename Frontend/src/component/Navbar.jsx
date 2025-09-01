@@ -1,6 +1,6 @@
 import { AlignRightIcon, SearchIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { useAppcontext } from '../context/AppContext'
+import { useAppcontext } from '../context/Appcontext'
 import { Admin, assets } from '../assets/assets'
 import { useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'

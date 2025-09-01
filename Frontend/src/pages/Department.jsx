@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Addbutton from '../component/Addbutton'
 import { Search } from 'lucide-react'
-import { useAppcontext } from '../context/AppContext'
+import { useAppcontext } from '../context/Appcontext'
 
 
 const Department = () => {

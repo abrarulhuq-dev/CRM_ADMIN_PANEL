@@ -3,7 +3,7 @@ import Addbutton from '../component/Addbutton'
 import { staff } from '../assets/assets'
 import Filterbar from '../component/Filterbar'
 import axios from 'axios'
-import { useAppcontext } from '../context/AppContext'
+import { useAppcontext } from '../context/Appcontext'
 import toast from 'react-hot-toast'
 
 const Staff = () => {

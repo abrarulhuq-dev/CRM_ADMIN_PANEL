@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useAppcontext } from '../context/AppContext'
+import { useAppcontext } from '../context/Appcontext'
 import { Eye, EyeClosed, Lock, MailIcon, User } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';

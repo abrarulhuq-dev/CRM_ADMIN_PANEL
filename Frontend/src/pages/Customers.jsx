@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Addbutton from '../component/Addbutton'
 import Filterbar from '../component/Filterbar'
 import { Customer } from '../assets/assets'
-import { useAppcontext } from '../context/AppContext'
+import { useAppcontext } from '../context/Appcontext'
 
 const Customers = () => {
   const [customersearch, setcustomersearch] = useState('')
