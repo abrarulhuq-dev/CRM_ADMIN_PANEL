@@ -12,7 +12,7 @@ const Staff = () => {
   const [to, setTo] = useState('')
   const [filteredmanagers, setFilteredmanagers] = useState(staff)
 
-  const [staffdata, setstaffdata] = useState({});
+  const [staffdata, setstaffdata] = useState([]);
 
   const { backendurl, token } = useAppcontext()
 
@@ -68,19 +68,20 @@ const Staff = () => {
             <tbody className="text-sm text-gray-500">
               {staffdata.map((stfrow, rowidx) => (
                 <tr key={rowidx} >
-                  {stfrow.map((col, colidx) => (
+                  <td className='pl-2'>user_{stfrow.id}</td>
+                  <td>{stfrow.name}</td>
+                  <td>{stfrow.manag}</td>
                     <tr>
-
                       <td className="px-4 py-3">
                         <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
-                          <input type="checkbox" className="sr-only peer" defaultChecked={stf.inStock} />
+                          <input type="checkbox" className="sr-only peer" defaultChecked={stfrow.inStock} />
                           <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-blue-600 transition-colors duration-200"></div>
                           <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
                         </label>
 
                       </td>
                     </tr>
-                  ))}
+                  
 
                 </tr>
               ))}
