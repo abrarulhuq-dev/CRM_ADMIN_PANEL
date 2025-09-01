@@ -13,22 +13,22 @@ const Manager = () => {
   const [filteredmanagers, setFilteredmanagers] = useState(manager)
 
 
-  const searchHandle = (e) => {
+  // const searchHandle = (e) => {
 
 
-    const value = e.target.value
-    setmanagerSearch(value)
-    filteredmanagers(value, from, to)
-  }
+  //   const value = e.target.value
+  //   setmanagerSearch(value)
+  //   filteredmanagers(value, from, to)
+  // }
 
 
 
-  const Datehandle = (e) => {
-    const { id, value } = e.target
-    if (id === 'from') setFrom(value)
-    if (id === 'to') setTo(value)
-    filteredmanagers(customersearch, id === 'from' ? value : from, id === 'to' ? value : to)
-  }
+  // const Datehandle = (e) => {
+  //   const { id, value } = e.target
+  //   if (id === 'from') setFrom(value)
+  //   if (id === 'to') setTo(value)
+  //   filteredmanagers(customersearch, id === 'from' ? value : from, id === 'to' ? value : to)
+  // }
 
 
 
