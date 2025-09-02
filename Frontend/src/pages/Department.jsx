@@ -1,16 +1,49 @@
 import React, { useEffect, useState } from 'react'
 import Addbutton from '../component/Addbutton'
-import { Search } from 'lucide-react'
+import { Search, Trash2Icon } from 'lucide-react'
 import { useAppcontext } from '../context/Appcontext'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 
 const Department = () => {
   const [searchdept, setsearchdept] = useState('');
   const [filterdept, setfilterdept] = useState([]);
+  const [newname, setnewname] = useState('');
 
-  const {department} = useAppcontext();
+  const { department, backendurl, token, setdepartment } = useAppcontext();
+  const [edit,setedit] = useState(false)
 
- 
+  const deleteoption  = async (deptId) => {
+
+    try {
+
+      const { data } = await axios.delete(backendurl + `api/department/${deptId}/`, { headers: { Authorization: `Bearer ${token}` } })
+
+      if (data.success) {
+
+        toast.success(data.message)
+        setdepartment(prev => (
+          prev.filter(deptupdate =>
+            deptupdate.id !== deptId
+          )));
+
+      } else {
+        console.log(error)
+        toast.error(data.error)
+      }
+
+    } catch (error) {
+      toast.error(error.message);
+
+    }
+  }
+
+
+  
+
+
+
 
   useEffect(() => {
     if (searchdept.length > 0) {
@@ -38,9 +71,15 @@ const Department = () => {
         <div className='py-3 px-2'>
           <h1 className='font-medium px-1'>Name</h1>
           {filterdept.length > 0 ? (
-            <div className='text-sm h-90 overflow-y-scroll no-scollbar'>
+            <div className='text-sm min-h-full max-h-90 overflow-y-scroll no-scollbar'>
               {filterdept.map((dept, idx) => (
-                <p key={idx} className='even:bg-gray-50 py-4 px-2'>{dept.name}</p>
+                <div className='flex justify-between '>
+                  <p key={idx} className='even:bg-gray-50 py-4 px-2'>{dept.name}</p>
+                  <ol className='flex items-center gap-2'>
+                    <Trash2Icon className='w-5 h-5 text-gray-600' onClick={()=>deleteoption(dept.id)} />
+                  </ol>
+                </div>
+
               ))}
             </div>
           ) : (

@@ -65,27 +65,12 @@ const Customers = () => {
       : 'bg-white';
   };
 
-  useEffect(() => {
-
-    if (customersearch.length > 0) {
-
-      setFilteredCustomers(
-        customerdata.filter(
-          cust.name.toLowerCase().includes(search.toLowerCase()) ||
-          cust.email.toLowerCase().includes(search.toLowerCase()) ||
-          cust.phone.includes(search)
-        )
-      )
-
-    }
-
-  }, [customersearch, customerdata])
-
+  
 
   return (
     <div className='mt-4'>
       <Addbutton name={'add-customers'} />
-      <div className='bg-white rounded-xl my-5 ml-10  px-8 '>
+      <div className='bg-white rounded-xl my-5 px-8 '>
         <Filterbar searchHandle={searchHandle}
           search={customersearch}
           Datehandle={Datehandle}
@@ -105,66 +90,72 @@ const Customers = () => {
                 <th className="w-20 pl-4 py-3 font-semibold truncate">Status</th>
               </tr>
             </thead>
-            <tbody className="text-sm text-gray-700">
+
+          
+              <tbody className="text-sm text-gray-700">
+
+                {customerdata.map((cust, rowidx) => (
+                  <tr key={rowidx} >
+                    <td className={`w-20 pl-2 ${getCellBg(0, rowidx)}`} >user_{cust.id}</td>
+                    <td className={`pl-3 py-3 ${getCellBg(1, rowidx)}`}>
+                      <div className='flex gap-2'>
+                        <img className='w-7 h-7' src={cust.profile} alt="profile" />
+                        <p>{cust.name} </p>
+                      </div>
+                    </td>
+                    <td className={`pl-2 py-3 ${getCellBg(4, rowidx)}`}>+91 {cust.phone}</td>
+                    <td className={`pl-2 py-3 ${getCellBg(2, rowidx)}`}>{cust.gender}</td>
+                    <td className={`pl-2 py-3 ${getCellBg(5, rowidx)}`}>{cust.email}</td>
+                    <td className={`pl-2 py-3 ${getCellBg(6, rowidx)}`}>{cust.Added_on}</td>
+                    <td className={`pl-4 py-3 ${getCellBg(7, rowidx)}`}>
+                      <div className=' flex gap-2 relative items-center'>
+                        <button
+                          className={`px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${cust.status === 'In Progress'
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : cust.status === 'Converted'
+                              ? 'bg-red-100 text-red-600'
+                              : 'bg-green-100 text-green-600'
+                            }`}
+                          onClick={() => setOpenDropdown(openDropdown === cust.id ? null : cust.id)}>
+                          {cust.status}
+                        </button>
+                        {openDropdown === cust.id && (
+                          <div className="absolute right-0.5 top-8 z-20 bg-stone-100 rounded-lg flex flex-col items-center gap-2 py-2 px-2 min-w-24 shadow transition-all duration-300 origin-top">
+                            {statusOptions.map((option, idx) => (
+                              <p
+                                key={idx}
+                                onClick={() => updatestatus(cust.id, option)}
+                                className={`px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${option === 'New'
+                                  ? 'bg-green-100 text-green-600'
+                                  : option === 'Converted'
+                                    ? 'bg-red-100 text-red-600'
+                                    : 'bg-yellow-100 text-yellow-700 w-20'
+                                  }`}
+                              >
+                                {option}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+
+              </tbody>
+
+            {/* ) : (
+              <div className='flex flex-col items-center justify-center py-8'>
+                <p className='text-xl font-medium'>Oops! No customer matches your search.</p>
+                <span className='text-sm text-gray-500 mt-2'>Please add a customer.</span>
+              </div>
+            )} */}
 
 
-              {customerdata.map((cust, rowidx) => (
-                <tr key={rowidx} >
-                  <td className={`w-20 pl-2 ${getCellBg(0, rowidx)}`} >user_{cust.id}</td>
-                  <td className={`pl-3 py-3 ${getCellBg(1, rowidx)}`}>
-                    <div className='flex gap-2'>
-                      <img className='w-7 h-7' src={cust.profile} alt="profile" />
-                      <p>{cust.name} </p>
-                    </div>
-                  </td>
-                  <td className={`pl-2 py-3 ${getCellBg(4, rowidx)}`}>+91 {cust.phone}</td>
-                  <td className={`pl-2 py-3 ${getCellBg(2, rowidx)}`}>{cust.gender}</td>
-                  <td className={`pl-2 py-3 ${getCellBg(5, rowidx)}`}>{cust.email}</td>
-                  <td className={`pl-2 py-3 ${getCellBg(6, rowidx)}`}>{cust.Added_on}</td>
-                  <td className={`pl-4 py-3 ${getCellBg(7, rowidx)}`}>
-                    <div className=' flex gap-2 relative items-center'>
-                      <button
-                        className={`px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${cust.status === 'In Progress'
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : cust.status === 'Converted'
-                            ? 'bg-red-100 text-red-600'
-                            : 'bg-green-100 text-green-600'
-                          }`}
-                        onClick={() => setOpenDropdown(openDropdown === cust.id ? null : cust.id)}>
-                        {cust.status}
-                      </button>
-                      {openDropdown === cust.id && (
-                        <div className="absolute right-0.5 top-8 z-20 bg-stone-100 rounded-lg flex flex-col items-center gap-2 py-2 px-2 min-w-24 shadow transition-all duration-300 origin-top">
-                          {statusOptions.map((option, idx) => (
-                            <p
-                              key={idx}
-                              onClick={() => updatestatus(cust.id, option)}
-                              className={`px-2 py-0.5 rounded-full text-xs font-semibold cursor-pointer ${option === 'New'
-                                ? 'bg-green-100 text-green-600'
-                                : option === 'Converted'
-                                  ? 'bg-red-100 text-red-600'
-                                  : 'bg-yellow-100 text-yellow-700 w-20'
-                                }`}
-                            >
-                              {option}
-                            </p>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
           </table>
         </div>
 
-        {/* : (
-            <div className='flex flex-col items-center justify-center py-8'>
-              <p className='text-xl font-medium'>Oops! No customer matches your search.</p>
-              <span className='text-sm text-gray-500 mt-2'>Please add a customer.</span>
-            </div>
-          )} */}
+
       </div>
     </div>
 

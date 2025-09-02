@@ -31,7 +31,7 @@ export const AppContextProvider = ({ children }) => {
     const [user, setuser] = useState([]);
 
 
-    const backendurl = import.meta.env.VITE_BACKEND_URL
+    const backendurl = import.meta.env.VITE_BACKEND_URL || 'https://crm-admin-panel-yyzy.onrender.com/'
 
 
 
@@ -136,6 +136,8 @@ export const AppContextProvider = ({ children }) => {
     
     
       };
+
+     
 
     
   
