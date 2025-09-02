@@ -10,7 +10,7 @@
 
 - **FRONTEND: ** React, TailwindCSS, Axios, react-hot-toast
 - **BACKEND: ** Django, Django REST Framework, JWT Authentication, SQLite3
-
+```
 ## Project Structure
 root/
 ├─ backend/ # Django backend
@@ -36,7 +36,7 @@ root/
 │ └─ vite.config.js
 └─ README.md
  |--
-
+```
 
 # SETUP STEP
 
@@ -82,3 +82,4 @@ https://crm-admin-panel-yyzy.onrender.com/api/
 
 
 
+```
