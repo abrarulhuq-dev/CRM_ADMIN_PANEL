@@ -147,11 +147,16 @@ export const AppContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        getstaff();
-        getuser()
-        getcustomer()
-        getdepartment();
-        getmanager();
+
+        if(token){
+
+            getstaff();
+            getuser()
+            getcustomer()
+            getdepartment();
+            getmanager();
+
+        }
 
     }, [token])
 

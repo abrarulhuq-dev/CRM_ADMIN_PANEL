@@ -28,7 +28,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     
-   ' https://crm-admin-panel-yyzy.onrender.com'
+   'crm-admin-panel-yyzy.onrender.com'
 ]
 
 
@@ -85,6 +85,7 @@ CLOUDINARY_STORAGE = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # CORS Middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -92,8 +93,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # CORS Middleware
-    'django.middleware.common.CommonMiddleware', # CORS Middleware
 ]
 
 ROOT_URLCONF = 'App.urls'
@@ -184,8 +183,8 @@ MEDIA_ROOT = BASE_DIR /'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    'https://crm-admin-panel-eight.vercel.app',
     'http://localhost:5173',
+    'https://crm-admin-panel-eight.vercel.app',
 ] # Allow all origins for CORS (for development only)
 
 CORS_ALLOW_CREDENTIALS = True
