@@ -73,7 +73,7 @@ const Manager = () => {
   return (
     <div className='mt-4'>
       <Addbutton name={'add-managers'} />
-      <div className='bg-white rounded-xl my-5 ml-10 px-8 '>
+      <div className='bg-white rounded-xl my-5 px-8 '>
         <Filterbar searchHandle={searchHandle}
           search={managerSearch}
           Datehandle={Datehandle}

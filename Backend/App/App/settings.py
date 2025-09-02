@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY =  'django-insecure-o&h2yugb-vx44cfpg256*=m&z3#@=f57^@pc5xdf2vl-fvcx8l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -179,9 +179,9 @@ MEDIA_ROOT = BASE_DIR /'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ORIGINS = [
-        'https://crm-admin-panel-eight.vercel.app/', 
-       ' http://localhost:5173/',
-    ] # Allow all origins for CORS (for development only)
+CORS_ALLOWED_ORIGINS = [
+    'https://crm-admin-panel-eight.vercel.app',
+    'http://localhost:5173',
+] # Allow all origins for CORS (for development only)
 
 
