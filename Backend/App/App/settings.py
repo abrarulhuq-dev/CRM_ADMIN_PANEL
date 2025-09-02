@@ -26,7 +26,11 @@ SECRET_KEY =  'django-insecure-o&h2yugb-vx44cfpg256*=m&z3#@=f57^@pc5xdf2vl-fvcx8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    
+   ' https://crm-admin-panel-yyzy.onrender.com'
+]
+
 
 
 
@@ -184,4 +188,5 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ] # Allow all origins for CORS (for development only)
 
+CORS_ALLOW_CREDENTIALS = True
 

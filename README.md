@@ -57,8 +57,8 @@ root/
  python manage.py createsuperuser
  # admincredentials
  # Username: admin
- # Email: admin@example.com
- # Password: Admin@crm
+ # Email: admin@CRM.com
+ # Password: AdminCRM123
 
  python manage.py runserver
 
