@@ -3,61 +3,53 @@ import Addbutton from '../component/Addbutton'
 import Filterbar from '../component/Filterbar'
 import { Customer } from '../assets/assets'
 import { useAppcontext } from '../context/Appcontext'
+import { CalendarDays, Search } from 'lucide-react'
 
 const Customers = () => {
-  const [customersearch, setcustomersearch] = useState('')
-  const [from, setFrom] = useState('')
-  const [to, setTo] = useState('')
-  const [filteredCustomers, setFilteredCustomers] = useState(Customer)
+  const [search, setSearch] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+
+  const [filteredCustomers, setFilteredCustomers] = useState([])
+  const [filterdateCustomers, setFilterdateCustomers] = useState([])
 
   const { updatestatus, openDropdown, setOpenDropdown, statusOptions, customerdata } = useAppcontext();
 
 
+  const onsubmithandle = () => {
 
-  // Search handler for customer
-  const searchHandle = (e) => {
-    const value = e.target.value
-    setcustomersearch(value)
-    filterCustomers(value, from, to)
+    setFilterdateCustomers(customerdata.filter(cust => {
+
+
+      const custDate = new Date(cust.Added_on); // Make sure Added_on is a valid date string
+      const fromDate = from ? new Date(from) : null;
+      const toDate = to ? new Date(to) : null;
+
+      const matchesDate = (!fromDate || custDate >= fromDate) && (!toDate || custDate <= toDate);
+
+      return matchesSearch && matchesDate;
+    }));
   }
 
-  // Date filter handler
-  const Datehandle = (e) => {
-    const { id, value } = e.target
-    if (id === 'from') setFrom(value)
-    if (id === 'to') setTo(value)
-    filterCustomers(customersearch, id === 'from' ? value : from, id === 'to' ? value : to)
-  }
 
-  // Filtering logic
-  const filterCustomers = (search, fromDate, toDate) => {
-    let filtered = customerdata
+  useEffect(() => {
 
-    // Search filter
-    if (search) {
-      filtered = filtered.filter(cust =>
+    if (search > 0) {
+      setFilteredCustomers(customerdata.filter(cust =>
         cust.name.toLowerCase().includes(search.toLowerCase()) ||
-        cust.email.toLowerCase().includes(search.toLowerCase()) ||
-        cust.phone.includes(search)
-      )
+        cust.email.toLowerCase().includes(search.toLowerCase())
+
+      ))
+
+    } else {
+      setFilteredCustomers(customerdata)
     }
 
-    // Date filter
-    if (fromDate) {
-      filtered = filtered.filter(cust => {
-        const custDate = new Date(cust.added_on || cust.date)
-        return custDate >= new Date(fromDate)
-      })
-    }
-    if (toDate) {
-      filtered = filtered.filter(cust => {
-        const custDate = new Date(cust.added_on || cust.date)
-        return custDate <= new Date(toDate)
-      })
-    }
+  }, [])
 
-    setFilteredCustomers(filtered)
-  }
+
+
+
 
   const getCellBg = (colidx, rowidx) => {
     return (colidx === 0 && rowidx % 2 === 0) || (colidx !== 0 && rowidx % 2 === 1)
@@ -65,19 +57,46 @@ const Customers = () => {
       : 'bg-white';
   };
 
-  
+
 
   return (
     <div className='mt-4'>
       <Addbutton name={'add-customers'} />
       <div className='bg-white rounded-xl my-5 px-8 '>
-        <Filterbar searchHandle={searchHandle}
-          search={customersearch}
-          Datehandle={Datehandle}
-          from={from}
-          to={to} />
+        <form className="flex max-xl:flex-col py-3 flex-row gap-4 bg-transparent items-center justify-end" onSubmit={onsubmithandle}>
+
+
+          <div className="flex items-center bg-[#F7F7F7] rounded-xl  px-5 py-3 mt-7">
+            <Search className="w-5 h-5 text-gray-400" />
+            <input type="text" placeholder="Search" onChange={(e) => setSearch(e.target.value)} value={search} className="bg-transparent outline-none px-3 text-base w-full" />
+          </div>
+
+          <div className='flex gap-4 max-lg:flex-col lg:flex-row'>
+
+            <div className="flex flex-col">
+              <label htmlFor="from" className="font-semibold mb-1 ml-1">From</label>
+              <div className="relative flex items-center bg-[#F7F7F7]  rounded-xl px-5 py-3 ">
+                <CalendarDays className="w-5 h-5 text-gray-400 mr-2 " />
+                <input id="from" type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="bg-transparent outline-none text-base" required />
+              </div>
+            </div>
+
+
+            <div className="flex flex-col">
+              <label htmlFor="to" className="font-semibold mb-1 ml-1">To</label>
+              <div className="relative flex items-center bg-[#F7F7F7]  rounded-xl px-5 py-3">
+                <CalendarDays className="w-5 h-5 text-gray-400 mr-2" />
+                <input id="to" type="date" value={to} onChange={(e) => setTo(e.target.value)} className="bg-transparent outline-none text-base" />
+
+              </div>
+            </div>
+          </div>
+
+          <button className="bg-primary text-white font-semibold rounded-xl px-8 py-3 ml-2 mt-6">Apply</button>
+        </form>
 
         <div className="flex flex-col items-center w-full h-96 rounded-md bg-white overflow-y-scroll no-scollbar ">
+
           <table className="md:table-auto table-fixed w-full ">
             <thead className="text-gray-900 text-sm text-left">
               <tr>
@@ -91,10 +110,11 @@ const Customers = () => {
               </tr>
             </thead>
 
-          
-              <tbody className="text-sm text-gray-700">
 
-                {customerdata.map((cust, rowidx) => (
+            {/* {search > 0 ? */}
+             {customerdata.map((cust, rowidx) => (
+
+                <tbody className="text-sm text-gray-700">
                   <tr key={rowidx} >
                     <td className={`w-20 pl-2 ${getCellBg(0, rowidx)}`} >user_{cust.id}</td>
                     <td className={`pl-3 py-3 ${getCellBg(1, rowidx)}`}>
@@ -140,19 +160,23 @@ const Customers = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                </tbody>
 
-              </tbody>
+              ))}
 
-            {/* ) : (
-              <div className='flex flex-col items-center justify-center py-8'>
-                <p className='text-xl font-medium'>Oops! No customer matches your search.</p>
-                <span className='text-sm text-gray-500 mt-2'>Please add a customer.</span>
-              </div>
-            )} */}
+              {/* // : (
+              //   <div className='flex flex-col items-center justify-center py-8'>
+              //     <p className='text-xl font-medium'>Oops! No customer matches your search.</p>
+              //     <span className='text-sm text-gray-500 mt-2'>Please add a customer.</span>
+              //   </div>
+              // )} */}
 
 
           </table>
+
+
+
+
         </div>
 
 
