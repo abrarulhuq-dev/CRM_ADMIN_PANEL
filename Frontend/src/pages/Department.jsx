@@ -11,7 +11,7 @@ const Department = () => {
   const [filterdept, setfilterdept] = useState([]);
   const [newname, setnewname] = useState('');
 
-  const { department, backendurl, token, setdepartment } = useAppcontext();
+  const { department, backendurl, token, getdepartment } = useAppcontext();
   const [edit,setedit] = useState(false)
 
   const deleteoption  = async (deptId) => {
@@ -23,10 +23,7 @@ const Department = () => {
       if (data.success) {
 
         toast.success(data.message)
-        setdepartment(prev => (
-          prev.filter(deptupdate =>
-            deptupdate.id !== deptId
-          )));
+        getdepartment()
 
       } else {
         console.log(error)
@@ -39,6 +36,12 @@ const Department = () => {
     }
   }
 
+  
+  useEffect(()=>{
+
+    getdepartment()
+
+  },token)
 
   
 

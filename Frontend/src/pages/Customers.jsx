@@ -13,7 +13,7 @@ const Customers = () => {
   const [filteredCustomers, setFilteredCustomers] = useState([])
   const [filterdateCustomers, setFilterdateCustomers] = useState([])
 
-  const { updatestatus, openDropdown, setOpenDropdown, statusOptions, customerdata } = useAppcontext();
+  const { updatestatus, openDropdown, setOpenDropdown, statusOptions, customerdata, getcustomer, token } = useAppcontext();
 
 
   const onsubmithandle = () => {
@@ -57,6 +57,16 @@ const Customers = () => {
       : 'bg-white';
   };
 
+
+  useEffect(() => {
+    
+    if (token) {
+
+      getcustomer()
+      
+    }
+   
+  }, [token]);
 
 
   return (

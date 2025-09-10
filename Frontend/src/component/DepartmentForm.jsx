@@ -8,7 +8,7 @@ const DepartmentForm = () => {
 
 
     const navigate = useNavigate()
-    const { backendurl, token, setdepartment } = useAppcontext()
+    const { backendurl, token, getdepartment } = useAppcontext()
     const [departmentname, setdepartmentname] = useState('');
     
     const [loading, setloadnig] = useState(false)
@@ -35,13 +35,15 @@ const DepartmentForm = () => {
 
             if (data.success) {
                 toast.success(data.message)
-                setdepartment(prev => [...prev, {name : departmentname}] );
+                getdepartment()
                 navigate('/departments')
             } else {
                 toast.error(data.error)
             }
 
         } catch (error) {
+
+            // handle error
             console.log(error);
             toast.error(error.message || "Something went wrong")
 

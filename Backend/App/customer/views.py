@@ -11,11 +11,27 @@ class CustomerViewSet(viewsets.ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         data = request.data
+        
+        required_fields = ['name', 'phone', 'gender', 'email', 'BOD', 'profile']
+        
+          # Check for missing fields in one line
+        missing_fields = [field for field in required_fields if not data.get(field)]
+        if missing_fields:
+            return Response({
+                "success": False,
+                "message": f"Missing fields: {', '.join(missing_fields)}"
+            }, status=400)
+            
+            
+        phone = request.data.get('phone')
+               
+        if phone and len(phone) != 10 :
+            return Response({'message': 'Phone number must be 10 digit'}, status=status.HTTP_400_BAD_REQUEST)
+        
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({
-                'success': True,
                 'message' : 'customer created successfull',
                 'data': serializer.data
             }, status=status.HTTP_201_CREATED)
@@ -27,7 +43,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
             if not queryset.exists():
                 return Response({'message': "No Customer found."},status=status.HTTP_404_NOT_FOUND )
             serializer = self.serializer_class(queryset, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response( serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
@@ -38,7 +54,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
         if serializer.is_valid(): 
             serializer.save() 
             return Response({ 
-                             "success": True, 
                              "message": "Customer updated successfully", 
                              "data": serializer.data 
                              }, status=status.HTTP_200_OK)
@@ -49,6 +64,5 @@ class CustomerViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response({
-            "success": True,
             "message": "Custmoer deleted successfully"
         }, status=status.HTTP_200_OK)

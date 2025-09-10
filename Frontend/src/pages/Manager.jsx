@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Addbutton from '../component/Addbutton'
 import { managaers } from '../assets/assets'
 import Filterbar from '../component/Filterbar'
@@ -8,7 +8,7 @@ import axios from 'axios'
 
 const Manager = () => {
 
-  const { manager, backendurl, token, setmanager } = useAppcontext()
+  const { manager, backendurl, token, getmanager } = useAppcontext()
   const [managerSearch, setmanagerSearch] = useState('')
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
@@ -26,9 +26,7 @@ const Manager = () => {
     if(data.success) {
 
       toast.success(data.message);
-      setmanager(prev => prev.map(mngr => 
-        mngr.id === mngrId ? { ...mngr, status : Is_status} :mngr 
-      ));
+      getmanager()
 
     }else{
       console.log(error)
@@ -45,9 +43,8 @@ const Manager = () => {
 
 
 
+
   const searchHandle = (e) => {
-
-
     const value = e.target.value
     setmanagerSearch(value)
     filteredmanagers(value, from, to)
@@ -62,11 +59,16 @@ const Manager = () => {
     filteredmanagers(customersearch, id === 'from' ? value : from, id === 'to' ? value : to)
   }
 
+  // 
   const getCellBg = (colidx, rowidx) => {
     return (colidx === 0 && rowidx % 2 === 0) || (colidx !== 0 && rowidx % 2 === 1)
       ? 'bg-gray-100'
       : 'bg-white';
   };
+
+  useEffect(()=>{
+    getmanager()
+  },[token])
 
 
 

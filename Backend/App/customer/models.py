@@ -6,7 +6,7 @@ class customer(models.Model):
     profile = models.ImageField(upload_to='profiles/', null=True, blank=True)
     email = models.EmailField(unique=True)
     BOD = models.DateField()
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=10)
     gender = models.CharField(max_length=10)
     status = models.CharField(max_length=20, default='New')
     Added_on = models.DateField(auto_now_add=True)

@@ -4,14 +4,16 @@ import { useAppcontext } from '../context/Appcontext'
 import { Admin, assets } from '../assets/assets'
 import { useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import axios from 'axios'
 
 const Navbar = () => {
 
-    const { menu, setmenu, setlogin, settoken, user } = useAppcontext()
+    const { menu, setmenu, setlogin, settoken, user, backendurl, token } = useAppcontext()
     const [searchquery, setsearchquery] = useState(false);
     const [showDropdown, setshowDropdown] = useState(false);
     const [search, setsearch] = useState('');
     const [filterpages, setfilterpages] = useState([]);
+    const [file, setfile] = useState(false);
 
     //  pagename change based on the current path using react route dom function of useLocation.
     const location = useLocation()
@@ -27,6 +29,39 @@ const Navbar = () => {
 
     const navigate = useNavigate();
 
+   const handleFileChange = async () => {
+        
+                      
+        try {
+            const formdata = new FormData()
+
+            formdata.append("profile_image", file )
+
+            const {data} = await axios.put(backendurl + 'api/user/profile/',{ formdata},  { headers: { Authorization: `Bearer ${token}` } })
+            
+            if(data.success) {
+
+                toast.success(data.message)
+                setfile(false)
+            }else{
+                toast.error(data.error)
+                console.log(data.error)
+            }
+
+        } catch (error) {
+            toast.error(error.message)
+            console.log(error)
+        }
+        
+    }
+ useEffect(()=>{
+
+    if(file) {
+        handleFileChange() 
+    }
+
+   },[file])
+
 
 
     const logout = () => {
@@ -39,10 +74,8 @@ const Navbar = () => {
 
     }
 
-
-    // mobile view setting 
-
-
+  
+    
     return (
         <div className='w-full'>
 
@@ -55,7 +88,7 @@ const Navbar = () => {
                 <div className='flex items-center gap-5'>
                     <div className='hidden lg:flex items-center text-sm'>
                         <SearchIcon onClick={() => setsearchquery(!searchquery)} className={` ${searchquery && 'text-gray-400'}`} />
-                        <input type="text" placeholder="Search" onChange={(e) => setsearch(e.target.value)} className={` outline-none transition-all duration-300 bg-gray-300/60 rounded-full focus:bg-gray-300/60
+                        <input type="text" placeholder="Search" onChange={(e) => setsearch(e.target.value)  } className={` outline-none transition-all duration-300 bg-gray-300/60 rounded-full focus:bg-gray-300/60
                          ${searchquery ? ' px-3 py-1 w-52 opacity-100 ml-2' : 'w-0 opacity-0 p-0 border-0 ml-0'}
                          `}
                         />
@@ -64,7 +97,12 @@ const Navbar = () => {
 
                     <div className='flex items-center gap-2'>
                         {/* get admin profile or update profile */}
-                        <img src={user.profile_image === null ? Admin.profile : user.profile_image } className='w-8 sm:w-10' alt="profile" />
+                        <div>
+                            <label htmlFor="image">
+                                <img src={file ? URL.createObjectURL(file) : user.profile_image == null ?  assets.upload_profile : user.profile_image  } className='w-8 rounded-full sm:w-10 cursor-pointer' alt="profile" />
+                            </label>
+                            <input onChange={(e)=>setfile(e.target.files[0])} type="file" id='image' hidden />
+                        </div>
                         <div className='mr-5 '>
                             <h1 className='font-semibold text-sm sm:text-xl'>{user.username}</h1>
                             <div className='flex items-center gap-2  text-gray-500 relative'>
@@ -74,7 +112,7 @@ const Navbar = () => {
                                 />
 
                                 <div
-                                    className={`absolute top-0 right-0 mt-8 left-12 text-base font-medium text-gray-600 z-20 min-w-24 bg-stone-100 rounded-lg flex flex-col gap-4 py-2 pl-4 transition-all duration-300 origin-top
+                                    className={`absolute top-0 right-0 mt-8 left-0 text-base font-medium text-gray-600 z-20 min-w-24 bg-stone-100 rounded-lg flex flex-col gap-4 py-2 pl-4 transition-all duration-300 origin-top
                                     ${showDropdown ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}
                                     `}
                                 >

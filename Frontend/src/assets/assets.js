@@ -9,6 +9,7 @@ import customer_icon_4 from './andi.png'
 import customer_icon_5 from './digg.png'
 import down_arrow_icon from './down_arrow.svg'
 import flag from './India (IN).svg'
+import upload_profile from './upload_area.png'
 import { UserCog, Users, UserRound, Building2, Venus, Mars, Calendar } from 'lucide-react'
 
 export const assets = {
@@ -23,6 +24,7 @@ export const assets = {
     dept_icon,
     down_arrow_icon,
     flag,
+    upload_profile,
 }
 
 export const Customer = [
@@ -148,34 +150,5 @@ export const Admin = {
 }
 
 
-export const stats = [
-    {
-        label: 'Total Managers',
-        value: 352,
-        icon: UserCog,
-        bg: 'bg-green-500/5',
-        color: 'text-green-500',
-    },
-    {
-        label: 'Total Staffs',
-        value: 352,
-        icon: Users,
-        bg: 'bg-red-500/5',
-        color: 'text-red-500',
-    },
-    {
-        label: 'Total Customers',
-        value: 352,
-        icon: UserRound,
-        bg: 'bg-blue-500/5',
-        color: 'text-blue-500',
-    },
-    {
-        label: 'Total Departments',
-        value: 352,
-        icon: Building2,
-        bg: 'bg-indigo-500/5',
-        color: 'text-indigo-500',
-    },
-]
+
 

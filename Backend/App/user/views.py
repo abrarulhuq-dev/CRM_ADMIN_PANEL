@@ -17,7 +17,7 @@ class RegisterView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception = True): # checking the validation or any error message is invalid
             user = serializer.save()
-            return Response( {"success" : True ,"message": "User registered successfully",
+            return Response( {"message": "User registered successfully",
                 "user": {
                 "username": user.username,
                 "email": user.email,
@@ -37,8 +37,7 @@ class LoginView(APIView):
         
         if user : 
             refresh = RefreshToken.for_user(user)
-            return Response({ "success": True,
-                "message": "Login sucessful",
+            return Response({"message": "Login sucessful",
                 "user": {
                     "username": user.username,
                     "email": user.email,
@@ -57,11 +56,25 @@ class ProfileView(APIView):
     def get(self, request):
         user = request.user
         serializer = RegisterSerializer(user)
-        return Response({ "success" : True,
-            "user": serializer.data,
+        return Response({"user": serializer.data,
             "username": user.username,
             "email": user.email,
             "profile_image": user.profile_image.url if user.profile_image else None
         }, status=status.HTTP_200_OK)
+        
+    
+    def put(self, request):
+        user = request.user    
+        serializer = RegisterSerializer(user, data={**request.data, **request.FILES} , partial =True )
+        if serializer.is_valid():
+            serializer.save()
+            user.refresh_from_db()
+            return Response({ "message" : "Update profile successful",
+                              "username": user.username,
+                              "email": user.email,
+                              "profile_image": user.profile_image.url if user.profile_image else None},
+                            status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
         
     

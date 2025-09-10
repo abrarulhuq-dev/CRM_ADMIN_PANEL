@@ -3,10 +3,13 @@ import { useAppcontext } from '../context/Appcontext'
 import { Eye, EyeClosed, Lock, MailIcon, User } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import {useNavigate} from 'react-router-dom'
 
 const Login = () => {
 
   const { setlogin, backendurl, settoken } = useAppcontext()
+  const navigate = useNavigate()
+
   const [state, setState] = useState("login");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -32,9 +35,9 @@ const Login = () => {
           setPassword2('')
           setUsername('')
         } else {
-
-          console.log(data.error)
+          
           toast.error(data.error)
+          console.log(data.error)
 
         }
 
@@ -43,26 +46,25 @@ const Login = () => {
 
         const { data } = await axios.post(backendurl + 'api/user/login/', { username, password })
 
-        if (data.success) {
+       
 
           setlogin(true)
           localStorage.setItem('access_token', data.token.access)
           localStorage.setItem('refresh_token', data.token.refresh)
+          navigate('/')
           settoken(data.token.access)
           toast.success(data.message)
           console.log(data)
-
-        } else {
-          toast.error(data.error)
-        }
+          
+       
 
       }
 
 
     } catch (error) {
 
-      console.log(error)
       toast.error(error.message)
+      console.log(error)
     }
 
   }

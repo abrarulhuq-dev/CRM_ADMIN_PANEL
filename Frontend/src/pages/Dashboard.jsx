@@ -1,25 +1,40 @@
-import React, { useState } from 'react'
-import { Admin, Customer, stats } from '../assets/assets'
+import React, { useEffect, useState } from 'react'
+import { Admin, Customer} from '../assets/assets'
 import { useAppcontext } from '../context/Appcontext'
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { UserCog, Users, UserRound, Building2 } from 'lucide-react'
 
 
 
 
 const Dashboard = () => {
-  const { openDropdown, setOpenDropdown, statusOptions, customerdata, updatestatus, } = useAppcontext();
+  const { openDropdown, setOpenDropdown, statusOptions, customerdata, manager, staffdata, department, updatestatus, getcustomer, token, getmanager, getstaff, getdepartment } = useAppcontext();
 
-  const [stated, setstats] = useState({})
+  const stats = [
+
+    { label: 'Total Managers', value: manager.length, icon: UserCog, bg: 'bg-green-500/5', color: 'text-green-500' },
+    { label: 'Total Staffs', value: staffdata.length, icon: Users, bg: 'bg-red-500/5', color: 'text-red-500' },
+    { label: 'Total Customers', value: customerdata.length, icon: UserRound, bg: 'bg-blue-500/5', color: 'text-blue-500' },
+    { label: 'Total Departments', value: department.length, icon: Building2, bg: 'bg-indigo-500/5', color: 'text-indigo-500' }
+  ]
 
 
 
+  
 
   const getCellBg = (colidx, rowidx) => {
     return (colidx === 0 && rowidx % 2 === 0) || (colidx !== 0 && rowidx % 2 === 1)
       ? 'bg-gray-100'
       : 'bg-white';
   };
+
+  useEffect(() => {
+    getcustomer()
+    getmanager()
+    getdepartment()
+    getstaff()
+  }, [token])
 
 
   return (
@@ -48,8 +63,8 @@ const Dashboard = () => {
         <p className='text-lg font-semibold'>Customers</p>
         <div className='mt-5 px-2.5'>
 
-          <div className="flex flex-col items-center w-full h-90 rounded-md bg-white overflow-y-scroll no-scollbar ">
-            <table className="md:table-auto table-fixed w-full ">
+          <div className="flex flex-col items-center w-full min-h-full max-h-90 rounded-md bg-white max-md:overflow-y-scroll no-scollbar ">
+            <table className="md:table-auto table-fixed w-full  ">
               <thead className="text-gray-900 text-sm text-left">
                 <tr>
                   <th className="w-20 pl-3 py-3 font-semibold truncate">ID</th>
@@ -85,7 +100,7 @@ const Dashboard = () => {
                           {cust.status}
                         </button>
                         {openDropdown === cust.id && (
-                          <div className="absolute right-0.5 top-8 z-20 bg-stone-100 rounded-lg flex flex-row items-center gap-2 py-2 px-2 min-w-24 shadow transition-all duration-300 origin-top">
+                          <div className="absolute right-0.5 top-8 z-50 bg-stone-100 rounded-lg flex flex-row items-center gap-2 py-2 px-2 min-w-24 shadow transition-all duration-300 origin-top">
                             {statusOptions.map((option, idx) => (
                               <p
                                 key={idx}

@@ -12,11 +12,17 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+import cloudinary
+# import cloudinary_storage.storage
+# from django.core.files.storage import default_storage
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -24,13 +30,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY =  'django-insecure-o&h2yugb-vx44cfpg256*=m&z3#@=f57^@pc5xdf2vl-fvcx8l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
      '127.0.0.1',  
    'crm-admin-panel-yyzy.onrender.com'
 ]
 
+# Cloudinary Config 
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True
+)
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
 
 
 
@@ -77,12 +96,6 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
-# Cloudinary Config (get from Cloudinary Dashboard)
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": 'dexqehley',
-    "API_KEY": '917514657121649',
-    "API_SECRET": 'N-45XjftxVTn1CYNqqcmr2H2Wt4'
-}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # CORS Middleware
@@ -123,6 +136,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
 }
 
 
@@ -172,13 +194,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-# Use Cloudinary as default media storage
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 
 # Static + Media setup
-MEDIA_URL = '/media/'   # not used for storage, but needed for DRF
+# MEDIA_URL = '/media/'   # not used for storage, but needed for DRF
 
-MEDIA_ROOT = BASE_DIR /'media'
+# MEDIA_ROOT = BASE_DIR /'media'
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

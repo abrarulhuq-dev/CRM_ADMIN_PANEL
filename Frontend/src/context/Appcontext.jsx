@@ -42,7 +42,9 @@ export const AppContextProvider = ({ children }) => {
             setdepartment(data);
             console.log(data);
         } catch (error) {
-            toast.error(error.message);
+            toast.error(error.response.data.message || error.message);
+            
+            
 
         }
     }
@@ -62,10 +64,13 @@ export const AppContextProvider = ({ children }) => {
     const getcustomer = async () => {
         try {
             const { data } = await axios.get(backendurl + 'api/customer', { headers: { Authorization: `Bearer ${token}` } });
+
+
             setcustomerdata(data)
             console.log(data)
+
         } catch (error) {
-            toast.error(error.message);
+            toast.error(error.response.data.message || error.message);
             console.log(error)
 
         }
@@ -80,7 +85,7 @@ export const AppContextProvider = ({ children }) => {
             console.log(data)
         } catch (error) {
 
-            toast.error(error.message)
+            toast.error(error.response.data.message || "Something went wrong");
             console.log(error)
 
         }
@@ -101,62 +106,36 @@ export const AppContextProvider = ({ children }) => {
         }
     }
 
-    
-      // Update status by customer ID
-      const updatestatus = async (customerId, newStatus) => {
-    
-    
+
+    // Update status by customer ID
+    const updatestatus = async (customerId, newStatus) => {
+
+
         try {
-    
-    
-          const { data } = await axios.patch(backendurl + `api/customer/${customerId}/`, { status: newStatus }, { headers: { Authorization: `Bearer ${token}` } });
-    
-          if (data.success) {
-    
-            toast.success(data.message);
+
+           const {data} =  await axios.patch(backendurl + `api/customer/${customerId}/`, { status: newStatus }, { headers: { Authorization: `Bearer ${token}` } });
             setOpenDropdown(null);
-            setcustomerdata(prev =>
-              prev.map(cust =>
-                cust.id === customerId ? { ...cust, status: newStatus } : cust
-              ));
-    
-    
-    
-          } else {
-            console.log(error)
-            toast.error(data.error)
-          }
-    
+            getcustomer()
+            toast.success(data.message)       
+
         } catch (error) {
-    
-          toast.error(error.message)
-          console.log(error)
-    
+
+            toast.error(error.message || "Something went wrong");
+            console.log(error)
+
         }
-    
-    
-      };
 
-     
 
-    
-  
-
-   
-  
+    };
 
 
 
 
     useEffect(() => {
 
-        if(token){
+        if (token) {
 
-            getstaff();
             getuser()
-            getcustomer()
-            getdepartment();
-            getmanager();
 
         }
 
@@ -174,9 +153,8 @@ export const AppContextProvider = ({ children }) => {
         department, setdepartment,
         manager, setmanager,
         token, settoken,
-        user, customerdata, staffdata,
-        staffdata, updatestatus,setstaffdata,
-        setmanager,
+        user, customerdata,staffdata, updatestatus, setstaffdata,
+        getcustomer, getstaff, updatestatus, getmanager, getdepartment
 
     };
 

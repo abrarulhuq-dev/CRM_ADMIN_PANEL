@@ -12,7 +12,6 @@ const CustomerFrom = () => {
 
   const [name, setname] = useState('');
   const [custmimg, setcustmimg] = useState([])
-  const [gender, setgender] = useState('');
   const [email, setemail] = useState('');
   const [bod, setbod] = useState('');
   const [phone, setphone] = useState('');
@@ -22,6 +21,7 @@ const CustomerFrom = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select");
   const Gender = ["Male", "Female"];
+
   const handleSelect = (genz) => {
     setSelected(genz); //courtry name set
     setIsOpen(false);
@@ -45,14 +45,6 @@ const CustomerFrom = () => {
 
       }
 
-      if (phone.length > 10) {
-        // keep only 10 digits max
-        setphone(phone.slice(0, 10))
-      }
-
-
-
-
 
       const formdata = new FormData()
 
@@ -67,29 +59,24 @@ const CustomerFrom = () => {
         console.log(`${key} : ${value}`)
       })
 
-      const { data } = await axios.post(backendurl + 'api/customer/', formdata, { headers: { Authorization: `Bearer ${token}` } })
-      if (data.success) {
+      await axios.post(backendurl + 'api/customer/', formdata, { headers: { Authorization: `Bearer ${token}` } })
+      
 
-        toast.success(data.message)
+        toast.success(Response.message)
         setcustmimg([])
         setname('')
         setemail('')
         setphone('')
-        setgender('')
         setbod('')
         setSelected('select')
         navigate('/customers')
 
 
-      } else {
-
-        toast.error(data.message)
-
-      }
-
+    
     } catch (error) {
       console.log(error);
-      toast.error(error.message || "Something went wrong")
+      toast.error(error.response.data.message || "Something went wrong")
+      // handle multi erro
 
     } finally {
       setloadnig(false)

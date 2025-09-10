@@ -12,10 +12,10 @@ python-dotenv = "*"
 dj-database-url = "*"
 psycopg2-binary = "*"
 cloudinary = "*"
-django-cloudinary-storage = "*"
 pillow = "*"
 djangorestframework-simplejwt = "*"
 gunicorn = "*"
+django-cloudinary-storage = "*"
 
 [dev-packages]
 
